@@ -129,8 +129,34 @@ body{background:var(--cream);color:var(--ink);min-height:100vh;overflow-x:hidden
 .ept{display:block;font-size:14px;font-weight:800;margin-top:2px}
 .epp{display:block;font-size:11.5px;color:#8a7a95;margin-top:1px}
 </style>
+<style>
+#gate{position:fixed;inset:0;z-index:9999;background:linear-gradient(160deg,#fff7fb,#f7f0ff);display:flex;align-items:center;justify-content:center;padding:20px;font-family:Heebo,system-ui,sans-serif}
+#gate .box{background:#fff;border:2px solid #ffe3ef;border-radius:24px;padding:26px 22px;max-width:380px;width:100%;box-shadow:0 12px 34px rgba(162,74,209,.14);text-align:center}
+#gate h2{margin:0 0 4px;font-size:20px;color:#4a3a55}
+#gate p.sub{margin:0 0 18px;font-size:13.5px;color:#8a7a95}
+#gate input{width:100%;padding:12px 14px;border:1.5px solid #ffe3ef;border-radius:14px;font-family:inherit;font-size:15px;margin-bottom:10px;text-align:center}
+#gate input:focus{outline:none;border-color:#a24ad1}
+#gate button{width:100%;border:0;border-radius:14px;padding:13px;font-family:inherit;font-weight:800;font-size:16px;background:linear-gradient(135deg,#a24ad1,#7a3fd1);color:#fff;cursor:pointer}
+#gate .err{color:#c0392b;font-size:13.5px;font-weight:700;min-height:18px;margin-top:8px}
+#gate .small{font-size:12px;color:#8a7a95;margin-top:14px}
+#badgeUser{position:fixed;top:10px;left:10px;z-index:9998;background:#fff;border:1px solid #ffe3ef;border-radius:30px;padding:6px 12px;font-size:12.5px;font-weight:700;color:#6b5a75;font-family:Heebo,sans-serif;box-shadow:0 2px 8px rgba(162,74,209,.1)}
+</style>
 </head>
 <body>
+
+<div id="gate">
+  <div class="box">
+    <h2>ברוכים הבאים 👋</h2>
+    <p class="sub">מספרי סיפורים — הזינו שם משתמש וסיסמה</p>
+    <input id="gUser" placeholder="שם משתמש" autocapitalize="characters" autocomplete="username">
+    <input id="gPass" type="password" placeholder="סיסמה" autocomplete="current-password">
+    <button id="gBtn">כניסה</button>
+    <div class="err" id="gErr"></div>
+    <div class="small">אין לכם גישה? פנו לחגית.</div>
+  </div>
+</div>
+<div id="badgeUser" style="display:none"></div>
+
 <div class="blobs"><i class="b1"></i><i class="b2"></i><i class="b3"></i><i class="b4"></i></div>
 <div class="app">
   <div class="eps" id="epsBar"></div>
@@ -429,11 +455,63 @@ audio.addEventListener('ended',()=>{
   try{niggun.currentTime=0;niggun.volume=0.4;}catch(e){}
   const pr=niggun.play(); if(pr&&pr.catch)pr.catch(()=>{});
 });
-document.addEventListener('DOMContentLoaded',()=>{
+
+
+/* ===== שער כניסה ===== */
+const HAPI='https://base44.app/api/apps/69f63b4536d7a2c6688403df/functions/hagitStoriesApi';
+const HTK='hagit_token', HUK='hagit_user';
+async function hApi(action,extra={}){
+  const r=await fetch(HAPI,{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({action,token:sessionStorage.getItem(HTK)||'',...extra})});
+  return r.json();
+}
+async function unlock(me){
+  document.getElementById('gate').remove();
+  const b=document.getElementById('badgeUser');
+  b.style.display='block';
+  b.textContent=(me.display_name||me.username)+(me.role==='admin'?' · מנהל':'');
+  if(me.role==='admin'){
+    const a=document.createElement('a');
+    a.href='admin.html'; a.textContent='ניהול'; a.style.marginInlineStart='8px';
+    b.appendChild(a);
+  }
+  const q=document.createElement('a');
+  q.href='#'; q.textContent='יציאה'; q.style.marginInlineStart='8px';
+  q.onclick=async(e)=>{e.preventDefault();await hApi('logout');
+    sessionStorage.removeItem(HTK);sessionStorage.removeItem(HUK);location.reload();};
+  b.appendChild(q);
+}
+document.addEventListener('DOMContentLoaded',async()=>{
+  const t=sessionStorage.getItem(HTK);
+  if(t){
+    const v=await hApi('verify');
+    if(v.ok){renderEpisodeFromHash();unlock(v.user);return;}
+    sessionStorage.removeItem(HTK);sessionStorage.removeItem(HUK);
+  }
+  const btn=document.getElementById('gBtn');
+  const doLogin=async()=>{
+    const u=document.getElementById('gUser').value.trim();
+    const p=document.getElementById('gPass').value;
+    const err=document.getElementById('gErr');
+    if(!u||!p){err.textContent='נא למלא שם משתמש וסיסמה';return;}
+    btn.disabled=true;
+    const r=await hApi('login',{username:u,password:p});
+    btn.disabled=false;
+    if(!r.ok){err.textContent=r.error||'שגיאה';return;}
+    sessionStorage.setItem(HTK,r.token);
+    sessionStorage.setItem(HUK,JSON.stringify(r.user));
+    renderEpisodeFromHash();
+    unlock(r.user);
+  };
+  btn.onclick=doLogin;
+  document.getElementById('gPass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+});
+function renderEpisodeFromHash(){
   const h=(location.hash||'').replace('#','');
   const idx=Math.max(0,EPISODES.findIndex(e=>e.id===h));
   renderEpisode(idx<0?0:idx);
-});
+}
+
 </script>
 </body>
 </html>

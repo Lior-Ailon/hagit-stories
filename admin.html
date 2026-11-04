@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ניהול משתמשים · מספרי סיפורים</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--teal:#0d9488;--teal-d:#0b7c72;--ink:#12313a;--soft:#6b8a90;--line:#d8ecea;--bg:#f2fbfa}
+*{box-sizing:border-box}
+body{margin:0;font-family:Heebo,system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+.wrap{max-width:920px;margin:0 auto;padding:20px 16px 60px}
+header{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.logo{font-weight:800;font-size:20px}.logo b{color:var(--teal)}
+.tag{background:#dff5f2;color:var(--teal-d);font-weight:700;font-size:12.5px;padding:5px 12px;border-radius:30px}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 6px 18px rgba(13,148,136,.06);margin-bottom:16px}
+h2{font-size:17px;margin:0 0 12px}
+label{display:block;font-size:13px;font-weight:700;margin:10px 0 4px;color:var(--soft)}
+input,select{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:12px;font-family:inherit;font-size:15px;background:#fff;color:var(--ink)}
+input:focus,select:focus{outline:none;border-color:var(--teal)}
+button{font-family:inherit;font-weight:800;font-size:15px;border:0;border-radius:12px;padding:12px 18px;cursor:pointer;background:var(--teal);color:#fff}
+button:active{transform:translateY(1px)}
+button.sec{background:#e7f5f3;color:var(--teal-d)}
+button.danger{background:#fee2e2;color:#b91c1c}
+button.sm{padding:8px 12px;font-size:13px;border-radius:10px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+.row>*{flex:1;min-width:140px}
+.msg{margin-top:10px;font-size:14px;font-weight:700;min-height:20px}
+.msg.err{color:#b91c1c}.msg.ok{color:var(--teal-d)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:right;padding:9px 8px;border-bottom:1px solid var(--line)}
+th{font-size:12.5px;color:var(--soft);font-weight:700}
+tr.inactive{opacity:.55}
+.pill{display:inline-block;font-size:11.5px;font-weight:800;padding:3px 9px;border-radius:20px;background:#dff5f2;color:var(--teal-d)}
+.pill.off{background:#f3f4f6;color:#6b7280}
+.pill.adm{background:#e0e7ff;color:#3730a3}
+.hide{display:none}
+.foot{text-align:center;font-size:12.5px;color:var(--soft);margin-top:24px}
+a{color:var(--teal-d)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">סיפורים <b>מהלב</b></div>
+    <div class="tag">ניהול משתמשים</div>
+    <div style="margin-inline-start:auto"><button class="sec sm" id="logoutBtn" style="display:none">יציאה</button></div>
+  </header>
+
+  <!-- כניסה -->
+  <div class="card" id="loginCard">
+    <h2>כניסת מנהל</h2>
+    <label>שם משתמש</label>
+    <input id="lu" autocapitalize="characters" placeholder="HAGIT">
+    <label>סיסמה</label>
+    <input id="lp" type="password" placeholder="••••••">
+    <div class="row" style="margin-top:14px"><button id="loginBtn">כניסה</button></div>
+    <div class="msg" id="loginMsg"></div>
+  </div>
+
+  <!-- ניהול -->
+  <div id="panel" class="hide">
+    <div class="card">
+      <h2>הוספת משתמש חדש</h2>
+      <div class="row">
+        <div><label>שם משתמש (אנגלית)</label><input id="nu" placeholder="MIRIAM" autocapitalize="characters"></div>
+        <div><label>שם מלא</label><input id="nd" placeholder="מרים כהן"></div>
+      </div>
+      <div class="row">
+        <div><label>סיסמה (6+)</label><input id="np" placeholder="123456"></div>
+        <div><label>הרשאה</label>
+          <select id="nr"><option value="user">משתמש — האזנה והשתתפות</option><option value="admin">מנהל</option></select>
+        </div>
+      </div>
+      <div class="row" style="margin-top:14px"><button id="addBtn">יצירת משתמש</button></div>
+      <div class="msg" id="addMsg"></div>
+    </div>
+
+    <div class="card">
+      <h2>משתמשים <span class="pill" id="count">0</span></h2>
+      <table>
+        <thead><tr><th>שם משתמש</th><th>שם</th><th>הרשאה</th><th>סטטוס</th><th>כניסה אחרונה</th><th></th></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>שינוי סיסמה לעצמי</h2>
+      <div class="row">
+        <div><label>סיסמה נוכחית</label><input id="op" type="password"></div>
+        <div><label>סיסמה חדשה</label><input id="cp" type="password"></div>
+      </div>
+      <div class="row" style="margin-top:14px"><button class="sec" id="chgBtn">עדכון סיסמה</button></div>
+      <div class="msg" id="chgMsg"></div>
+    </div>
+  </div>
+
+  <div class="foot">מספרי סיפורים · <a href="index.html">חזרה לאפליקציה</a></div>
+</div>
+
+<script>
+const API='https://base44.app/api/apps/69f63b4536d7a2c6688403df/functions/hagitStoriesApi';
+const TK='hagit_token', UK='hagit_user';
+let token=sessionStorage.getItem(TK)||'';
+let me=JSON.parse(sessionStorage.getItem(UK)||'null');
+
+async function api(action,extra={}){
+  const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({action,token,...extra})});
+  return r.json();
+}
+const $=id=>document.getElementById(id);
+function setMsg(id,txt,ok){const e=$(id);e.textContent=txt||'';e.className='msg '+(ok?'ok':'err');}
+
+$('loginBtn').onclick=async()=>{
+  const u=$('lu').value.trim(), p=$('lp').value;
+  if(!u||!p){setMsg('loginMsg','נא למלא שם משתמש וסיסמה');return;}
+  $('loginBtn').disabled=true;
+  const r=await api('login',{username:u,password:p});
+  $('loginBtn').disabled=false;
+  if(!r.ok){setMsg('loginMsg',r.error||'שגיאה');return;}
+  if(r.user.role!=='admin'){setMsg('loginMsg','המשתמש אינו מנהל');return;}
+  token=r.token; me=r.user;
+  sessionStorage.setItem(TK,token); sessionStorage.setItem(UK,JSON.stringify(me));
+  enterPanel();
+};
+
+function enterPanel(){
+  $('loginCard').classList.add('hide');
+  $('panel').classList.remove('hide');
+  $('logoutBtn').style.display='inline-block';
+  loadUsers();
+}
+
+$('logoutBtn').onclick=async()=>{
+  await api('logout');
+  sessionStorage.removeItem(TK); sessionStorage.removeItem(UK);
+  token='';me=null;location.reload();
+};
+
+async function loadUsers(){
+  const r=await api('list_users');
+  if(!r.ok){setMsg('addMsg',r.error||'שגיאה בטעינה');return;}
+  const tb=$('tbody'); tb.innerHTML='';
+  $('count').textContent=r.users.length;
+  r.users.forEach(u=>{
+    const tr=document.createElement('tr');
+    if(u.status!=='active')tr.className='inactive';
+    const last=u.last_login?new Date(u.last_login).toLocaleString('he-IL',{dateStyle:'short',timeStyle:'short'}):'—';
+    tr.innerHTML=`<td><b>${u.username}</b></td>
+      <td>${u.display_name||'—'}</td>
+      <td><span class="pill ${u.role==='admin'?'adm':''}">${u.role==='admin'?'מנהל':'משתמש'}</span></td>
+      <td><span class="pill ${u.status==='active'?'':'off'}">${u.status==='active'?'פעיל':'מושבת'}</span></td>
+      <td style="font-size:12.5px;color:#6b8a90">${last}</td>
+      <td style="white-space:nowrap"></td>`;
+    const cell=tr.lastElementChild;
+
+    const bReset=document.createElement('button');
+    bReset.className='sec sm'; bReset.textContent='איפוס סיסמה';
+    bReset.onclick=async()=>{
+      const p=prompt('סיסמה חדשה עבור '+u.username+' (6 תווים לפחות):');
+      if(!p)return;
+      const rr=await api('reset_password',{id:u.id,password:p});
+      alert(rr.ok?'הסיסמה עודכנה':'שגיאה: '+rr.error);
+    };
+
+    const bToggle=document.createElement('button');
+    bToggle.className='sec sm'; bToggle.style.marginInlineStart='6px';
+    bToggle.textContent=u.status==='active'?'השבתה':'הפעלה';
+    bToggle.onclick=async()=>{
+      const rr=await api('update_user',{id:u.id,status:u.status==='active'?'inactive':'active'});
+      if(rr.ok)loadUsers(); else alert('שגיאה: '+rr.error);
+    };
+
+    const bDel=document.createElement('button');
+    bDel.className='danger sm'; bDel.style.marginInlineStart='6px'; bDel.textContent='מחיקה';
+    bDel.onclick=async()=>{
+      if(!confirm('למחוק את '+u.username+'?'))return;
+      const rr=await api('delete_user',{id:u.id});
+      if(rr.ok)loadUsers(); else alert('שגיאה: '+rr.error);
+    };
+
+    cell.append(bReset,bToggle,bDel);
+    tb.appendChild(tr);
+  });
+}
+
+$('addBtn').onclick=async()=>{
+  const u=$('nu').value.trim(), d=$('nd').value.trim(), p=$('np').value, r=$('nr').value;
+  if(!u||!p){setMsg('addMsg','נא למלא שם משתמש וסיסמה');return;}
+  $('addBtn').disabled=true;
+  const res=await api('create_user',{username:u,password:p,display_name:d||u,role:r});
+  $('addBtn').disabled=false;
+  if(!res.ok){setMsg('addMsg',res.error||'שגיאה');return;}
+  setMsg('addMsg','נוצר משתמש '+res.username+' ✓',true);
+  $('nu').value='';$('nd').value='';$('np').value='';
+  loadUsers();
+};
+
+$('chgBtn').onclick=async()=>{
+  const o=$('op').value, n=$('cp').value;
+  if(!o||!n){setMsg('chgMsg','נא למלא שתי הסיסמאות');return;}
+  const r=await api('change_password',{old_password:o,new_password:n});
+  if(r.ok){setMsg('chgMsg','הסיסמה עודכנה ✓',true);$('op').value='';$('cp').value='';}
+  else setMsg('chgMsg',r.error||'שגיאה');
+};
+
+(async()=>{
+  if(token&&me&&me.role==='admin'){
+    const v=await api('verify');
+    if(v.ok&&v.user.role==='admin'){me=v.user;enterPanel();return;}
+    sessionStorage.removeItem(TK);sessionStorage.removeItem(UK);
+  }
+  $('lu').focus();
+})();
+</script>
+</body>
+</html>
