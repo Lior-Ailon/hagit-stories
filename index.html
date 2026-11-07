@@ -158,8 +158,21 @@ body{background:var(--cream);color:var(--ink);min-height:100vh;overflow-x:hidden
 #subBox.fade{opacity:.15}
 </style>
 <style>#storyCard{display:none !important}</style>
+<style>
+/* ==== נופי ארץ ישראל — רקע מעצב לילדים ==== */
+#landBg{position:fixed;inset:0;z-index:-2;background-size:cover;background-position:center 30%;
+ background-repeat:no-repeat;transition:opacity .8s ease;filter:saturate(1.05)}
+#landVeil{position:fixed;inset:0;z-index:-1;pointer-events:none;
+ background:linear-gradient(180deg,rgba(255,247,251,.90) 0%,rgba(255,252,247,.86) 38%,rgba(240,253,250,.90) 100%)}
+#landPlace{display:inline-flex;align-items:center;gap:7px;margin:0 auto 10px;background:rgba(255,255,255,.92);
+ border:2px solid #ffe0ec;border-radius:999px;padding:6px 15px;font-family:'Rubik',sans-serif;font-size:13.5px;
+ font-weight:600;color:#8a4b6b;box-shadow:0 4px 14px rgba(163,74,140,.10)}
+#landCred{text-align:center;font-family:'Rubik',sans-serif;font-size:11px;color:#9b93a6;padding:18px 16px 40px;line-height:1.6}
+#landCred a{color:#9b93a6}
+</style>
 </head>
 <body>
+<div id="landBg"></div><div id="landVeil"></div>
 
 <div id="gate">
   <div class="box">
@@ -487,6 +500,24 @@ try{fetch('episodes_data.json?v=42').then(r=>r.json()).then(d=>{
   if(typeof renderEpisodeFromHash==='function'){try{renderEpisodeFromHash();}catch(_){}}
 }).catch(e=>console.warn('ep data',e));}catch(e){}
 
+/* LAND_OF_ISRAEL */
+const LAND={
+ 'lech-lecha':{img:'land/beersheva_old.jpg',place:'באר שבע שבדרך',note:'כאן עבר אברהם בדרכו לארץ'},
+ 'toldot':{img:'land/chevron.jpg',place:'חברון · מערת המכפלה',note:'כאן קבורים אברהם ושרה'},
+ 'vayetzei':{img:'land/negev.jpg',place:'הדרך אל בית אל',note:'כאן חלם יעקב על הסולם'}
+};
+function setLand(eid){
+  try{
+    const b=document.getElementById('landBg'); const L=LAND[eid];
+    if(!b||!L) return;
+    b.style.backgroundImage="url('"+L.img+"')";
+    let chip=document.getElementById('landPlace');
+    if(!chip){chip=document.createElement('div');chip.id='landPlace';
+      const host=document.querySelector('.hero')||document.querySelector('header')||document.body;
+      host.insertBefore(chip,host.firstChild);}
+    chip.innerHTML='📍 '+L.place+' · <span style="font-weight:400">'+L.note+'</span>';
+  }catch(e){}
+}
 function renderEpisode(i){
   curIdx=i; const ep=EPISODES[i];
   si=-1; timerKind=null; clearTimeout(subTimer); niggunDone=false; try{resetSfx();resetSubBox();window.__sfxDone={};window.__sfxLast='';}catch(e){}
@@ -522,6 +553,7 @@ function renderEpisode(i){
     guidedMode();
   }
   renderBar();
+  setLand(ep.id);
   window.scrollTo({top:0,behavior:'smooth'});
 }
 audio.addEventListener('timeupdate',()=>{
@@ -597,5 +629,6 @@ function renderEpisodeFromHash(){
 }
 
 </script>
+<div id="landCred">צילומי ארץ ישראל: מערת המכפלה (נחום סלומון, נחלת הכלל) · ירושלים (נחלת הכלל) · באר שבע 1900 (נחלת הכלל) · טבריה 1862 (פרנסיס בדפורד, נחלת הכלל) · הכנרת (נחלת הכלל) · מכתש רמון (CC BY-SA 4.0, ויקישיתוף) · שכם 1894 (דניאל ב. שפ, נחלת הכלל)</div>
 </body>
 </html>
