@@ -281,14 +281,15 @@ body{background:var(--cream);color:var(--ink);min-height:100vh;overflow-x:hidden
 </div>
 
 <audio id="introAudio" src="story.mp3" preload="auto"></audio>
-<audio id="niggun" src="niggun_new.mp3" preload="auto"></audio>
+<audio id="niggun" src="audio/beds/niggun_opening.mp3" preload="auto"></audio>
 <script>
 /* ====== נתוני הפרשות ====== */
 const SFXPOOL={};
 function sfx(name,vol){
   try{
     let a=SFXPOOL[name];
-    if(!a){a=new Audio('audio/sfx/'+name+'.mp3');a.preload='auto';SFXPOOL[name]=a;}
+    if(!a){const bed=['chords','somber','desert','rain_soft','niggun_opening'].includes(name);
+      a=new Audio((bed?'audio/beds/':'audio/sfx/')+name+'.mp3');a.preload='auto';SFXPOOL[name]=a;}
     const el=a.cloneNode ? a.cloneNode() : new Audio(a.src);
     el.volume=Math.min(1,vol||0.2);
     const pr=el.play(); if(pr&&pr.catch)pr.catch(()=>{});
@@ -481,7 +482,7 @@ function renderBar(){
   bar.querySelectorAll('.ep').forEach(el=>el.addEventListener('click',()=>renderEpisode(+el.dataset.i)));
 }
 /* EP_DATA_INJECTED */
-try{fetch('episodes_data.json?v=41').then(r=>r.json()).then(d=>{
+try{fetch('episodes_data.json?v=42').then(r=>r.json()).then(d=>{
   Object.keys(d).forEach(id=>{const e=EPISODES.find(x=>x.id===id);if(e){Object.assign(e,d[id]);} });
   if(typeof renderEpisodeFromHash==='function'){try{renderEpisodeFromHash();}catch(_){}}
 }).catch(e=>console.warn('ep data',e));}catch(e){}
