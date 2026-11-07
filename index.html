@@ -187,6 +187,7 @@ body{background:var(--cream);color:var(--ink);min-height:100vh;overflow-x:hidden
 .land-card .cap b{display:block;font-size:14.5px;color:#7a3d63;margin-bottom:3px}
 .land-card .cap span{font-size:12.5px;color:#8b8496;line-height:1.45}
 </style>
+<style>#subBox{display:none !important}</style>
 </head>
 <body>
 <div id="landBg"></div><div id="landVeil"></div>
@@ -403,20 +404,7 @@ function hlPara(i){
   ps[k].classList.add('hl');
   try{ps[k].scrollIntoView({behavior:'smooth',block:'center'});}catch(e){}
 }
-function setSub(i){
-  const box=document.getElementById('subBox');
-  let txt='';
-  if(SEG[i]&&SEG[i][2]) txt=SEG[i][2];
-  else if(ps.length){
-    const k=Math.min(ps.length-1,Math.floor((i+1)/SEG.length*ps.length));
-    txt=(ps[k]?ps[k].textContent:'').trim();
-  }
-  if(!box)return;
-  if(txt){
-    box.classList.add('fade');
-    setTimeout(()=>{box.textContent=txt;box.classList.remove('idle');box.classList.remove('fade');},120);
-  }
-}
+function setSub(i){ /* כתוביות הוסרו לבקשת ליאור */ }
 function resetSubBox(msg){
   const box=document.getElementById('subBox'); if(!box)return;
   box.textContent=msg||'לוחצים על הכפתור, והכתוביות יופיעו כאן'; box.classList.add('idle');
@@ -427,7 +415,7 @@ function showSeg(i){ if(i>=SEG.length){stopSubs(true);return;} si=i; hlPara(i); 
 function stopSubs(done){
   clearTimeout(subTimer);subTimer=null;timerKind=null;
   ps.forEach(p=>p.classList.remove('hl'));
-  const bar=document.getElementById('subBar'); if(bar)bar.classList.remove('on');
+  
   resetSubBox(done?'הסיפור הסתיים. אפשר להאזין שוב 🤍':null);
   const bgm=document.getElementById('bgm'); if(bgm&&!bgm.paused){bgm.pause();}
   btn.innerHTML=done?'<span class="ic">📖</span> לקרוא שוב את הסיפור':'<span class="ic">📖</span> קריאה מודרכת';
@@ -641,7 +629,7 @@ audio.addEventListener('timeupdate',()=>{
 });
 audio.addEventListener('ended',()=>{
   const bgm=document.getElementById('bgm'); if(bgm)bgm.pause();
-  const bar=document.getElementById('subBar'); if(bar)bar.classList.remove('on');
+  
   resetSubBox('הסיפור הסתיים. אפשר להאזין שוב 🤍');
   try{niggun.currentTime=0;niggun.volume=0.5;}catch(e){}
   const pr=niggun.play(); if(pr&&pr.catch)pr.catch(()=>{});
