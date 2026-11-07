@@ -188,6 +188,43 @@ body{background:var(--cream);color:var(--ink);min-height:100vh;overflow-x:hidden
 .land-card .cap span{font-size:12.5px;color:#8b8496;line-height:1.45}
 </style>
 <style>#subBox{display:none !important}</style>
+<style>
+/* ===== עיצוב ארץ ישראל ===== */
+@import url('https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Assistant:wght@300;400;600;700&display=swap');
+body{background:#f7f1e4 !important;font-family:'Assistant',system-ui,sans-serif !important;color:#3e3529}
+h1,h2,h3,.ep-title,.ep-name,#epTitle,#epName{font-family:'Frank Ruhl Libre',serif !important;letter-spacing:-.3px}
+#landVeil{background:linear-gradient(180deg,rgba(250,243,229,.90) 0%,rgba(252,247,236,.86) 40%,rgba(244,238,224,.92) 100%) !important}
+#landPlace{background:rgba(255,252,244,.96) !important;border:2px solid #d9c4a3 !important;color:#6b5a3e !important;
+ box-shadow:0 6px 20px rgba(120,90,50,.14) !important;font-family:'Assistant',sans-serif !important;font-weight:700}
+
+.play-btn{background:linear-gradient(135deg,#b5654a,#9c5138) !important;color:#fff8ec !important;
+ box-shadow:0 10px 24px rgba(150,80,50,.28) !important;border-radius:18px !important;font-family:'Frank Ruhl Libre',serif !important}
+.play-btn .ic{color:#ffe9c9}
+.land-card{border:3px solid #e6d5b8 !important;background:#fffcf4 !important;box-shadow:0 8px 22px rgba(120,90,50,.13) !important}
+.land-card .cap b{color:#7a5a34 !important}
+.land-card .cap span{color:#8a7a63 !important}
+#landGallery h3{color:#8a5a2b !important}
+#landGallery .gsub{color:#a08b6d !important}
+#landCred{color:#a2947c !important}
+#subBar{display:none !important}
+/* מסגרת עץ/אבן עדינה בראש המסך */
+body::before{content:'';position:fixed;top:0;left:0;right:0;height:6px;z-index:9999;
+ background:linear-gradient(90deg,#b5654a,#c98b52,#a8a24c,#6b8f5e,#3f7d74,#6b8f5e,#a8a24c,#c98b52,#b5654a)}
+</style>
+<style>
+/* ===== חיבור לזהות: עם ישראל · ארץ ישראל ===== */
+#identityBand{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:14px auto 4px;max-width:700px;padding:0 10px}
+.id-pill{display:flex;align-items:center;gap:6px;background:linear-gradient(180deg,#fffdf6,#f7efe0);
+ border:2px solid #e3d2b4;border-radius:999px;padding:7px 14px;font-family:'Assistant',sans-serif;font-weight:700;
+ font-size:13.5px;color:#7a5a34;box-shadow:0 3px 10px rgba(120,90,50,.08)}
+#identityLine{max-width:640px;margin:12px auto 0;padding:14px 18px;background:linear-gradient(135deg,#fffdf7,#f6efe2);
+ border:2px solid #e8d8bd;border-radius:18px;text-align:center;font-family:'Assistant',sans-serif;font-size:14.5px;
+ line-height:1.65;color:#5f5140;box-shadow:0 6px 18px rgba(120,90,50,.07)}
+#identityLine b{color:#8a5a2b;font-family:'Frank Ruhl Libre',serif;font-weight:700}
+.dividerOlive{height:14px;max-width:420px;margin:20px auto;background:
+ radial-gradient(circle at 10% 50%,#c3b184 0 2px,transparent 2px) 0 0/40px 14px repeat-x;opacity:.55}
+#bsd{ text-align:center;font-family:'Frank Ruhl Libre',serif;font-size:13px;color:#a2906f;margin:10px 0 0}
+</style>
 </head>
 <body>
 <div id="landBg"></div><div id="landVeil"></div>
@@ -230,6 +267,15 @@ body{background:var(--cream);color:var(--ink);min-height:100vh;overflow-x:hidden
         <div class="intro-line" id="introLine">שלום ילדים אהובים 👋<br>בואו נקשיב היום לסיפור ממש מיוחד, ממש מעניין…</div>
         <div id="subBox" class="idle">לוחצים על הכפתור, והכתוביות יופיעו כאן</div>
         <div class="coming-soon" id="comingSoon">🚧 הפרק הראשון עוד לא הועלה — בקרוב!</div>
+      <div id="identityBand">
+        <div class="id-pill">🌾 עם ישראל</div>
+        <div class="id-pill">🫒 ארץ ישראל</div>
+        <div class="id-pill">📜 תורת ישראל</div>
+      </div>
+      <div id="identityLine">
+        <b>הסיפור הזה קרה כאן.</b> בארץ הזאת, על האבנים האלה, בדרכים האלה הלכו אבותינו —
+        ואותם ילדים ששומעים היום, הם ההמשך שלהם.
+      </div>
       <div id="landGallery">
         <h3>🗺️ נופי ארץ ישראל</h3>
         <div class="gsub">המקומות שבהם קרו הסיפורים שאנחנו שומעים</div>
@@ -618,6 +664,11 @@ function renderEpisode(i){
   }
   renderBar();
   __lastLandKey=''; setLandAt(0); buildLandGallery();
+  try{const il=document.getElementById('identityLine');
+    const IDENT={'lech-lecha':'<b>באר שבע וארץ הנגב</b> — מכאן התחילה הדרך של עם ישראל אל הארץ שהובטחה לו.',
+      'toldot':'<b>חברון</b> — העיר העתיקה ביותר של עם ישראל, ושם קבורים אבותינו.',
+      'vayetzei':'<b>בית אל</b> — כאן עמד יעקב על האבנים, וכאן חלם את החלום שכולנו ממשיכים לחלום.'};
+    if(il && IDENT[ep.id]) il.innerHTML=IDENT[ep.id];}catch(e){}
   window.scrollTo({top:0,behavior:'smooth'});
 }
 audio.addEventListener('timeupdate',()=>{
