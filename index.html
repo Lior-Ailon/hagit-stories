@@ -229,27 +229,8 @@ body{background:var(--cream);color:var(--ink);min-height:100vh;overflow-x:hidden
       <div class="get-card">
         <h3>🎁 מה מקבלים כל שבוע?</h3>
         <div class="get-item"><div class="em">🎧</div><div><b>סיפור מוקלט לפרשת השבוע</b><span>בקול חם ואישי, שילדים ירצו לשמוע שוב ושוב</span></div></div>
-        <div class="get-item"><div class="em">🕯️</div><div><b>עלון שאלות לשולחן השבת</b><span>שאלות ופעילות שמעשירות את האווירה בבית</span></div></div>
+        <div class="get-item"><div class="em">🕯️</div><div><b>סיפור לכל שבוע</b><span>סיפור חדש לפרשת השבוע, זמין להאזנה בכל רגע</span></div></div>
         <div class="get-item"><div class="em">💬</div><div><b>הסיפור מגיע ישר לוואטסאפ</b><span>בקבוצה ייחודית למנויים — בלי לחפש שום דבר</span></div></div>
-      </div>
-
-      <!-- שאלות לשולחן שבת -->
-      <div class="shabbat-card">
-        <h3>🕯️ שאלות לשולחן שבת</h3>
-        <p class="hint2">אחרי הסיפור — תנו לילדים במה להרשים את המשפחה:</p>
-        <ol id="qlist">
-          <li>אברהם היה יכול לבחור ראשון — למה ויתר ונתן ללוט לבחור?</li>
-          <li>לוט בחר את המקום הכי ירוק והכי עשיר. מה הוא שכח לבדוק?</li>
-          <li>כשבוחרים חברים או מקום — חשוב יותר מה יש שם, או מי שם? למה?</li>
-        </ol>
-        <a class="share-btn" id="shareBtn" href="#">💬 שתפו את הסיפור בקבוצה</a>
-      </div>
-
-      <!-- הרחבות להורים -->
-      <div class="shabbat-card" id="parentsCard" style="background:linear-gradient(135deg,#f4fff9,#eef9ff);border-color:#bfe9d0">
-        <h3>👨‍👩‍👧 להורים — מה עושים עם זה השבוע</h3>
-        <p class="hint2">רעיונות קצרים שאפשר לעשות בבית, בלי הכנה מראש:</p>
-        <div id="parentsBody"></div>
       </div>
 
       <!-- המלצות -->
@@ -258,30 +239,10 @@ body{background:var(--cream);color:var(--ink);min-height:100vh;overflow-x:hidden
         <div class="who">— אמא לארבעה, אשקלון (דוגמה להמלצה — תועלף בהמלצה אמיתית)</div>
       </div>
 
-      <!-- פעילות לסוף הפרשה -->
-      <div class="act-card" id="actCard">
-        <h3 style="font-family:'Varela Round',sans-serif;font-size:clamp(18px,3.4vw,22px);margin-bottom:14px;text-align:center">🎈 משחק לסוף הפרשה</h3>
-        <div class="act-tabs">
-          <div class="act-tab on" onclick="actTab(0,this)">❓ טריוויה</div>
-          <div class="act-tab" onclick="actTab(1,this)">🃏 משחק זיכרון</div>
-        </div>
-        <div class="act-body on" id="act0"><div id="triviaWrap"></div>
-          <div class="trivia-q"><div class="qt">1. למה אברהם הסכים שלוט יבחר ראשון את המקום?</div><button class="ans-btn" onclick="reveal(this)">לחשו לתשובה 🎈</button><div class="trivia-a">כי שלום בין אחים היה חשוב לו יותר מכל הרכוש! "כי אנשים אחים אנחנו"</div></div>
-          <div class="trivia-q"><div class="qt">2. איזה אזור לוט בחר?</div><button class="ans-btn" onclick="reveal(this)">לחשו לתשובה 🎈</button><div class="trivia-a">את ככר הירדן — ירוק, עם הרבה מים ודשא לכבשים</div></div>
-          <div class="trivia-q"><div class="qt">3. מה הטעות שלוט עשה בבחירה?</div><button class="ans-btn" onclick="reveal(this)">לחשו לתשובה 🎈</button><div class="trivia-a">הוא הסתכל רק על הדשא והמים — ושכח לבדוק מי השכנים: אנשי סדום, רעים וחטאים</div></div>
-          <div class="trivia-q"><div class="qt">4. מה היה אצל אברהם ולוט שגרם לריב בין הרועים?</div><button class="ans-btn" onclick="reveal(this)">לחשו לתשובה 🎈</button><div class="trivia-a">הרבה מאוד כבשים ובקר — עד שהארץ לא הספיקה לכולם!</div></div>
-          <div class="trivia-q"><div class="qt">5. מה למדנו מאברהם?</div><button class="ans-btn" onclick="reveal(this)">לחשו לתשובה 🎈</button><div class="trivia-a">שכדאי לוותר כדי שיהיה שלום — ושצריך לבדוק לא רק מה יש במקום, אלא גם מי נמצא שם</div></div>
-        </div>
-        <div class="act-body" id="act1">
-          <div class="mem-grid" id="memGrid"></div>
-          <div class="mem-score" id="memScore">מצאו 8 זוגות מהסיפור! 🎯</div>
-        </div>
-      </div>
-
       <!-- תוכניות מנוי -->
       <div class="plans-card" id="plansCard">
         <h3>🎁 בוחרים תוכנית</h3>
-        <p class="plans-hint">כל התוכניות כוללות: סיפור לכל פרשה + שאלות לשולחן שבת + קבוצת הוואטסאפ</p>
+        <p class="plans-hint">כל התוכניות כוללות: סיפור לכל פרשה + קבוצת הוואטסאפ</p>
         <div class="plan" data-name="חודשי שותפים" onclick="pickPlan(this)">
           <div class="plan-head"><span class="plan-name">שותפים לחלום 💫</span><span class="plan-price">29 ₪<small>/חודש</small></span></div>
           <div class="plan-cond">התנאי הקטן: משתפים את הסיפור בסטטוס וב-2 קבוצות וואטסאפ — והופכים לשותפים להפצת הסיפורים 🎈</div>
@@ -334,6 +295,26 @@ function sfx(name,vol){
   }catch(e){}
 }
 let SFXCUES=[], sfxIdx=0;
+function sfxForText(txt,key){
+  try{
+    if(!window.__sfxDone) window.__sfxDone={};
+    if(window.__sfxDone[key]) return;
+    const t=txt||'';
+    const map=[[/חמור|חמורים|אתון/,'donkey'],[/גמל|גמלים/,'camel'],[/צאן|עדר|כבש|כבשים|טלה|רחל/,'flock'],
+      [/ריב|מריבה|ריבים|התווכח|צעק|כועס|שנאה/,'crowd'],[/מדבר|חול|שממה|רוח/,'wind'],
+      [/לילה|כוכבים|חלום|שכב|ישן/,'night'],[/מים|באר|באר|נחל|באר/,'water'],
+      [/אש|מדורה|בישל|תבשיל|נזיד/,'fire'],[/שוק|עיר|אנשים|המון/,'market'],
+      [/דלת|בית|אוהל|פתח/,'door'],[/בקר|פרה|עגל/,'barnyard'],[/תרנגול|בוקר|שחר/,'rooster'],
+      [/ציפור|ציפורים|עוף/,'birds'],[/ינשוף|לילה שקט/,'owl']];
+    for(const [re,name] of map){
+      if(re.test(t)){
+        if((window.__sfxLast||'')===name) return;
+        window.__sfxLast=name; window.__sfxDone[key]=1;
+        sfx(name,0.16); return;
+      }
+    }
+  }catch(e){}
+}
 function resetSfx(){ SFXCUES=(EPISODES[curIdx]&&EPISODES[curIdx].cues)||[]; sfxIdx=0; }
 function tickSfx(t){
   while(sfxIdx<SFXCUES.length && t>=SFXCUES[sfxIdx][0]){
@@ -342,7 +323,7 @@ function tickSfx(t){
 }
 const EPISODES=[
 {id:'lech-lecha',num:'פרק 1',badge:'פרשת לך לך',title:'אברהם ולוט נפרדים',short:'לך לך',
- audio:'story.mp3',
+ audio:'story_radio.mp3',
  intro:"שלום ילדים אהובים 👋<br>בואו נקשיב היום לסיפור ממש מיוחד, ממש מעניין…",
  story:"<p>שלום ילדים חמודים. אנחנו היום ממשיכים בסיפור הבא. היום יש לנו סיפור מאוד מאוד מיוחד ומעניין, אז שבו בנוח ואנחנו מתחילים.</p>\n        <p>אתם זוכרים שסיפרנו ששרה הייתה בבית של פרעה, שאברהם אמר לה: אימרי נא אחותי את. ואחר כך הם גילו שבאמת היא אשתו של אברהם, ופרעה נתן לאברהם הרבה מאוד מתנות, ושלח אותו חזרה לארץ. ואברהם עלה ממצרים הוא ואשתו וכל אשר לו.</p>\n        <p>ואתם זוכרים מי עוד היה איתו? היה איתו גם לוט. אבא של לוט נפטר, ואברהם לקח את לוט כאילו שהוא הבן שלו, ולוט היה עם אברהם כל הזמן, ולמד ממנו וגר אצלו וחי איתו.</p>\n        <p>ואברהם היה כבד מאוד במקנה, בכסף ובזהב. אברהם היה איש מאוד מאוד עשיר. היו לו הרבה חמורים וכבשים ופרות, והיה לו גם הרבה כסף, והיו לו גם הרבה תכשיטי זהב. והנה הוא הולך, מטייל בארץ, מחפש איפה לגור, והוא מגיע חזרה לביתו בבית אל, איפה שהוא כבר היה פעם אחת.</p>\n        <p>אבל גם ללוט, שהולך עם אברהם, היה צאן ובקר ואוהלים — גם לוט עשיר. גם ללוט היה הרבה כסף, והיו לו גם הרבה כבשים ובקר וחמורים.</p>\n        <p class=\"posuk\">שתראו מה כתוב בתורה: \"ולא נשא אותם הארץ לשבת יחדיו, כי היה רכושם רב, ולא יכלו לשבת יחדיו\". כל אחד שיש לו כבשים צריך הרבה מקום, צריך הרבה דשא והרבה עשב להאכיל את הכבשים שלו.</p>\n        <p>ואתם יודעים מה קרה? \"ויהי ריב בין רועי מקנה אברם ובין רועי מקנה לוט\". הרועים, אלה שאחראים ושומרים על הכבשים, מתחילים לריב ביניהם: זוז מפה! זה השטח בשביל הכבשים שלי! לא נכון, זה השטח של הכבשים שלי! תסתלקו מפה! ואלה צועקים על אלה, ואלה צועקים על אלה.</p>\n        <p>ובסוף הם מגיעים לאברהם, הרועים האלה, ואומרים לאברהם: אברהם, אברהם, יש פה בעיה גדולה! כל הזמן הרועים של לוט באים לקחת לנו את השטחים של המרעה שלנו! וגם הרועים של לוט הולכים ללוט ואומרים לו: לוט, יש פה בעיה, אין לנו מקום! כל הזמן הרועים של אברהם לוקחים לנו את השטח, ואין לנו עשבים, אין לנו מקום עם עשב ירוק לתת לכבשים, ואין לכבשים שלנו מה לאכול.</p>\n        <p class=\"posuk\">ואתם יודעים מה קורה? אברהם קורא אליו את לוט. \"ויאמר אברם אל לוט\" — תקשיבו טוב טוב מה אומר אברהם ללוט:</p>\n        <p class=\"posuk\">\"אל נא תהי מריבה ביני ובינך, ובין רועי ובין רועיך, כי אנשים אחים אנחנו\".</p>\n        <p>אברהם אומר ללוט: לוט, אני לא רוצה שתהיה בינינו מריבה, אני לא רוצה שתהיה בינינו קטטה — אנחנו אחים! וממשיך אברהם ואומר: \"הלוא כל הארץ לפניך, היפרד נא מעלי. אם השמאל ואימינה, ואם הימין ואשמאילה\". אומר אברהם ללוט: לוט, אני לא רוצה שתהיה בינינו מריבה, אנחנו אנשים אחים. אני נותן לך את ההזדמנות לבחור ראשון! אם אתה תבחר ללכת לצד ימין — אני אלך לצד שמאל. אם אתה תבחר לצד שמאל — אני אלך לצד ימין. אין לי בעיה. העיקר שלא תהיה מריבה בינינו.</p>\n        <p>ולוט מסכים. הם עומדים במקום גבוה, \"וישא לוט את עיניו וירא את כל ככר הירדן כי כולה משקה\". לוט ככה מסתכל רחוק רחוק, ורואה שבאזור של ים המלח, באזור של סדום, יש הרבה שטחים ירוקים. או, איזה יופי! שם יש הרבה צמחייה, שם יהיה הרבה אוכל לכבשים שלי, והכבשים שלי יאכלו טוב, ויהיה להם הרבה בשר, ויהיה לי הרבה חלב, ויהיה לי הרבה צמר, ואני אעשיר, והם ימליטו עוד ועוד ועוד כבשים! נהדר, נהדר!</p>\n        <p>אברהם, אני החלטתי, אומר לוט. זה כתוב בתורה: \"ויבחר לו לוט את כל ככר הירדן, ויסע לוט מקדם, וייפרדו איש מעל אחיו\". הנה הם נפרדים. אברהם אמר ללוט \"היפרד נא מעלי\" — והם באמת נפרדים. אברהם ישב בארץ כנען, ולוט ישב בערי הכיכר.</p>\n        <p class=\"posuk\">אבל יש פה עוד משהו שאומרת לנו התורה: \"ויאהל עד סדום\". האוהלים של לוט מגיעים עד סדום. ומיד כתוב לנו בפסוק הבא: \"ואנשי סדום רעים וחטאים לה' מאוד\".</p>\n        <p>לוט בוחר לגור ליד אנשים רעים וחטאים בעיר סדום. לוט בחר את האזור שיש בו הרבה הרבה צמחייה ודשא ומים, ושם הוא יוכל לגדל את הכבשים שלו בטוב, והכבשים שלו ישמינו ויתנו הרבה חלב והרבה צמר. אבל השכנים שם — רעים מאוד. כתוב בתורה: \"ואנשי סדום רעים וחטאים לה' מאוד\".</p>\n        <p>אנחנו עכשיו נעצור את הסיפור הזה, ורק אני רוצה שתשימו לב לכמה דברים. שימו לב איך אברהם לא רוצה שתהיה מריבה. הוא קורא ללוט בעצמו, והוא אומר לו: \"אל נא תהי מריבה ביני ובינך ובין רועי ובין רועיך, כי אנשים אחים אנחנו\". אברהם לא רוצה שתהיה מריבה, והוא מוותר, ואומר: כל הארץ לפניך, היפרד נא מעלי — אני נותן לך לבחור ראשון. אני מוותר. העיקר שיהיה שלום.</p>\n        <p>אבל לוט לוקח את ההזדמנות שאברהם נותן לו — אבל הוא עושה טעות גדולה גדולה, מפני שלוט הולך לגור ליד אנשים רעים וחטאים לה' מאוד — אנשי סדום.</p>\n        <p>ובפעם הבאה אנחנו נראה מה קרה לאנשי סדום.</p>\n        <p class=\"end\">להתראות, ילדים חמודים, ולילה טוב.</p>",
  questions:"<li>אברהם היה יכול לבחור ראשון — למה ויתר ונתן ללוט לבחור?</li>\n          <li>לוט בחר את המקום הכי ירוק והכי עשיר. מה הוא שכח לבדוק?</li>\n          <li>כשבוחרים חברים או מקום — חשוב יותר מה יש שם, או מי שם? למה?</li>",
@@ -403,7 +384,9 @@ function resetSubBox(msg){
   const box=document.getElementById('subBox'); if(!box)return;
   box.textContent=msg||'לוחצים על הכפתור, והכתוביות יופיעו כאן'; box.classList.add('idle');
 }
-function showSeg(i){ if(i>=SEG.length){stopSubs(true);return;} si=i; hlPara(i); setSub(i); }
+function showSeg(i){ if(i>=SEG.length){stopSubs(true);return;} si=i; hlPara(i); setSub(i);
+  try{ sfxForText(document.getElementById('subBox').textContent, (EPISODES[curIdx]&&EPISODES[curIdx].id)+':'+i); }catch(e){}
+}
 function stopSubs(done){
   clearTimeout(subTimer);subTimer=null;timerKind=null;
   ps.forEach(p=>p.classList.remove('hl'));
@@ -499,7 +482,7 @@ function renderBar(){
 }
 function renderEpisode(i){
   curIdx=i; const ep=EPISODES[i];
-  si=-1; timerKind=null; clearTimeout(subTimer); niggunDone=false; try{resetSfx();resetSubBox();}catch(e){}
+  si=-1; timerKind=null; clearTimeout(subTimer); niggunDone=false; try{resetSfx();resetSubBox();window.__sfxDone={};window.__sfxLast='';}catch(e){}
   try{niggun.pause();}catch(e){}
   document.getElementById('parashaBadge').textContent=ep.badge;
   document.getElementById('epTitle').textContent=ep.title;
@@ -507,14 +490,14 @@ function renderEpisode(i){
   document.getElementById('introLine').innerHTML=ep.intro;
   storyCard.innerHTML='<h3>📖 הסיפור של השבוע</h3>'+ep.story;
   ps=[...storyCard.querySelectorAll('p')];
-  document.getElementById('qlist').innerHTML=ep.questions;
-  document.getElementById('triviaWrap').innerHTML=ep.trivia;
+  const _q=document.getElementById('qlist'); if(_q)_q.innerHTML=ep.questions||'';
+  const _t=document.getElementById('triviaWrap'); if(_t)_t.innerHTML=ep.trivia||'';
   const pcard=document.getElementById('parentsCard');
   if(pcard){
     if(ep.parents){pcard.style.display='';document.getElementById('parentsBody').innerHTML=ep.parents;}
     else pcard.style.display='none';
   }
-  buildMemory(ep.memory);
+  try{ if(document.getElementById('memGrid')) buildMemory(ep.memory); }catch(e){}
   SEG = ep.seg || (()=>{ let t=0; return ps.map(pp=>{ const w=(pp.textContent||'').split(/\s+/).filter(Boolean).length;
     const d=Math.max(5,Math.round(w/2.4)); const seg=[t,t+d,'']; t+=d; seg[1]=t; return seg; }); })();
   renderBar();
@@ -523,7 +506,7 @@ function renderEpisode(i){
   if(chip){ chip.style.display=ep.audio?'none':'block'; }
   if(ep.audio){
     audio.pause();
-    audio.src=ep.audio+'?v=20';
+    audio.src=ep.audio+'?v=40';
     audio.onerror=guidedMode;
     audio.oncanplaythrough=()=>{ btn.innerHTML='<span class="ic">▶</span> להאזין לסיפור'; btn.onclick=listenClick; };
     btn.innerHTML='<span class="ic">▶</span> להאזין לסיפור'; btn.onclick=listenClick;
