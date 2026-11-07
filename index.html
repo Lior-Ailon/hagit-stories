@@ -558,6 +558,42 @@ function buildLandGallery(){
     host.dataset.done='1';
   }catch(e){}
 }
+/* LAND_TIMELINE */
+const LAND_EVENTS={
+ 'vayetzei':[{t:0,img:'beersheva',title:'באר שבע · הנגב',note:'מכאן יצא יעקב אל הדרך'},
+             {t:199,img:'negev',title:'המדבר · הדרך לחרן',note:'הלילה שבו נפתח הסולם'},
+             {t:501,img:'negev',title:'בית אל · הרי בנימין',note:'כאן חלם יעקב על הסולם'},
+             {t:700,img:'jerusalem',title:'ירושלים · העיר העתיקה',note:'העיר שאליה נשאו אבותינו עיניים'}],
+ 'toldot':[{t:0,img:'chevron',title:'חברון · מערת המכפלה',note:'כאן קבורים אברהם ושרה'},
+           {t:16,img:'chevron',title:'חברון · מערת המכפלה',note:'מכאן מתחילה הפרשה'},
+           {t:240,img:'beersheva',title:'תל באר שבע · הנגב',note:'ארץ הנגב שבה ישבו יצחק ורבקה'},
+           {t:520,img:'negev',title:'השדה · הנגב',note:'שם צד עשו, ושם בנה יעקב אוהלים'},
+           {t:700,img:'galilee_view',title:'הכנרת · הגליל',note:'הארץ שעליה נאמרה הברכה'}],
+ 'lech-lecha':[{t:0,img:'beersheva',title:'תל באר שבע · הנגב',note:'כאן עבר אברהם בדרכו לארץ'}]
+};
+const LAND_AMBIENT=['jerusalem','galilee_view','shechem_view','tiberias_old','negev','chevron','beersheva'];
+let __lastLandKey='';
+function landFor(eid,t){
+  const ev=LAND_EVENTS[eid]||[];
+  let cur=null;
+  for(const e of ev){ if(t>=e.t) cur=e; else break; }
+  if(cur) return cur;
+  const i=Math.floor(t/75)%LAND_AMBIENT.length;
+  return {img:LAND_AMBIENT[i],title:'נופי ארץ ישראל',note:'המקומות שבהם קרו הסיפורים'};
+}
+function setLandAt(t){
+  try{
+    const eid=EPISODES[curIdx]&&EPISODES[curIdx].id;
+    const L=landFor(eid,t);
+    const key=eid+'|'+L.img+'|'+L.title;
+    if(key===__lastLandKey) return;
+    __lastLandKey=key;
+    const b=document.getElementById('landBg'); if(b) b.style.backgroundImage="url('land/"+L.img+".jpg')";
+    let chip=document.getElementById('landPlace');
+    if(!chip){chip=document.createElement('div');chip.id='landPlace';document.body.appendChild(chip);}
+    chip.innerHTML='📍 '+L.title+' · <span style="font-weight:400">'+L.note+'</span>';
+  }catch(e){}
+}
 function renderEpisode(i){
   curIdx=i; const ep=EPISODES[i];
   si=-1; timerKind=null; clearTimeout(subTimer); niggunDone=false; try{resetSfx();resetSubBox();window.__sfxDone={};window.__sfxLast='';}catch(e){}
@@ -593,7 +629,7 @@ function renderEpisode(i){
     guidedMode();
   }
   renderBar();
-  setLand(ep.id); buildLandGallery();
+  __lastLandKey=''; setLandAt(0); buildLandGallery();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 audio.addEventListener('timeupdate',()=>{
@@ -601,7 +637,7 @@ audio.addEventListener('timeupdate',()=>{
   let i=SEG.findIndex(sg=>cur>=sg[0]&&cur<sg[1]);
   if(i<0)i=(cur>=SEG[SEG.length-1][1])?SEG.length-1:0;
   if(i!==si&&!audio.paused){clearTimeout(subTimer);showSeg(i);}
-  tickSfx(cur);
+  tickSfx(cur); setLandAt(cur);
 });
 audio.addEventListener('ended',()=>{
   const bgm=document.getElementById('bgm'); if(bgm)bgm.pause();
