@@ -172,6 +172,21 @@ body{background:var(--cream);color:var(--ink);min-height:100vh;overflow-x:hidden
 #landCred{text-align:center;font-family:'Rubik',sans-serif;font-size:11px;color:#9b93a6;padding:18px 16px 40px;line-height:1.6}
 #landCred a{color:#9b93a6}
 </style>
+<style>
+/* ==== גלריית נופי ארץ ישראל ==== */
+#landGallery{margin:26px auto 10px;max-width:760px;padding:0 6px}
+#landGallery h3{font-family:'Varela Round',sans-serif;font-size:clamp(17px,3.6vw,21px);color:#0d9488;text-align:center;margin-bottom:4px}
+#landGallery .gsub{text-align:center;font-family:'Rubik',sans-serif;font-size:13px;color:#8b8496;margin-bottom:14px}
+.land-scroll{display:flex;gap:12px;overflow-x:auto;padding:6px 4px 14px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.land-scroll::-webkit-scrollbar{height:6px}
+.land-scroll::-webkit-scrollbar-thumb{background:#ffd6e7;border-radius:99px}
+.land-card{flex:0 0 78%;max-width:290px;scroll-snap-align:center;background:#fff;border-radius:20px;overflow:hidden;
+ border:3px solid #fff0f6;box-shadow:0 8px 22px rgba(160,80,140,.12)}
+.land-card img{width:100%;height:150px;object-fit:cover;display:block}
+.land-card .cap{padding:10px 12px 12px;font-family:'Rubik',sans-serif;text-align:right;direction:rtl}
+.land-card .cap b{display:block;font-size:14.5px;color:#7a3d63;margin-bottom:3px}
+.land-card .cap span{font-size:12.5px;color:#8b8496;line-height:1.45}
+</style>
 </head>
 <body>
 <div id="landBg"></div><div id="landVeil"></div>
@@ -214,6 +229,12 @@ body{background:var(--cream);color:var(--ink);min-height:100vh;overflow-x:hidden
         <div class="intro-line" id="introLine">שלום ילדים אהובים 👋<br>בואו נקשיב היום לסיפור ממש מיוחד, ממש מעניין…</div>
         <div id="subBox" class="idle">לוחצים על הכפתור, והכתוביות יופיעו כאן</div>
         <div class="coming-soon" id="comingSoon">🚧 הפרק הראשון עוד לא הועלה — בקרוב!</div>
+      <div id="landGallery">
+        <h3>🗺️ נופי ארץ ישראל</h3>
+        <div class="gsub">המקומות שבהם קרו הסיפורים שאנחנו שומעים</div>
+        <div class="land-scroll" id="landScroll"></div>
+      </div>
+
       </div>
 
       <!-- הסיפור המלא -->
@@ -520,6 +541,23 @@ function setLand(eid){
     chip.innerHTML='📍 '+L.place+' · <span style="font-weight:400">'+L.note+'</span>';
   }catch(e){}
 }
+/* LAND GALLERY */
+const LAND_ITEMS=[
+ {img:'land/chevron.jpg',t:'מערת המכפלה · חברון',d:'כאן קבורים אברהם ושרה, יצחק ורבקה, יעקב ולאה'},
+ {img:'land/jerusalem.jpg',t:'ירושלים · העיר העתיקה',d:'העיר שאליה התפללו אבותינו, ובקצה הסולם של יעקב'},
+ {img:'land/beersheva.jpg',t:'תל באר שבע · הנגב',d:'מכאן יצא אברהם לדרך, וכאן חפרו האבות בארות'},
+ {img:'land/tiberias_old.jpg',t:'טבריה והכנרת · 1862',d:'הים שהסיפורים נשקפים ממנו, בציור של פעם'},
+ {img:'land/galilee_view.jpg',t:'הכנרת מהר האושר',d:'כאן לימדו ונאמרו הדברים הגדולים'},
+ {img:'land/shechem_view.jpg',t:'הר גריזים · שכם',d:'המקום שבו באו הברכות והקללות על שני ההרים'},
+ {img:'land/negev.jpg',t:'מכתש רמון · הנגב',d:'המדבר שבו חלמו וצעדו אבותינו'}
+];
+function buildLandGallery(){
+  try{
+    const host=document.getElementById('landScroll'); if(!host||host.dataset.done) return;
+    host.innerHTML=LAND_ITEMS.map(x=>`<div class="land-card"><img src="${x.img}" alt="${x.t}" loading="lazy"><div class="cap"><b>${x.t}</b><span>${x.d}</span></div></div>`).join('');
+    host.dataset.done='1';
+  }catch(e){}
+}
 function renderEpisode(i){
   curIdx=i; const ep=EPISODES[i];
   si=-1; timerKind=null; clearTimeout(subTimer); niggunDone=false; try{resetSfx();resetSubBox();window.__sfxDone={};window.__sfxLast='';}catch(e){}
@@ -555,7 +593,7 @@ function renderEpisode(i){
     guidedMode();
   }
   renderBar();
-  setLand(ep.id);
+  setLand(ep.id); buildLandGallery();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 audio.addEventListener('timeupdate',()=>{
