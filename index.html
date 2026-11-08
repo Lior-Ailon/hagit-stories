@@ -383,7 +383,7 @@ const SFXPOOL={};
 function sfx(name,vol){
   try{
     let a=SFXPOOL[name];
-    if(!a){const bed=['chords','somber','desert','rain_soft','niggun_opening'].includes(name);
+    if(!a){const bed=['chords','somber','desert','rain_soft','niggun_opening','stone'].includes(name);
       a=new Audio((bed?'audio/beds/':'audio/sfx/')+name+'.mp3');a.preload='auto';SFXPOOL[name]=a;}
     const el=a.cloneNode ? a.cloneNode() : new Audio(a.src);
     el.volume=Math.min(1,vol||0.2);
