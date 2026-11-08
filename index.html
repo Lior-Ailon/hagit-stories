@@ -233,10 +233,74 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;height:6px;z-index:9
  border:2px solid #e3d2b4;border-radius:999px;padding:7px 16px;font-family:'Assistant',sans-serif;font-weight:700;font-size:14px;color:#7a5a34}
 .about-quote{margin-top:14px;padding:12px 14px;border-right:4px solid #c98b52;background:rgba(255,250,238,.8);border-radius:10px;
  font-family:'Frank Ruhl Libre',serif;font-size:15.5px;line-height:1.7;color:#5f5140}
+
+/* ===== מסגרת ארץ ישראל: רקע מכל הכיוונים + קדימה ===== */
+#landMosaic{position:fixed;inset:0;z-index:-3;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:3px;opacity:.9}
+#landMosaic img{width:100%;height:100%;object-fit:cover;filter:saturate(1.02) contrast(1.02);animation:kb 30s ease-in-out infinite alternate}
+@keyframes kb{from{transform:scale(1.02)}to{transform:scale(1.14)}}
+#landMosaic::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(252,246,233,.62),rgba(250,243,229,.46) 45%,rgba(246,238,222,.68))}
+#landBg{opacity:.5}
+#landFrame{position:fixed;inset:0;z-index:5;pointer-events:none}
+#landFrame .brd{position:absolute;inset:7px;border:1.5px solid rgba(138,90,43,.28);border-radius:18px;box-shadow:inset 0 0 0 1px rgba(13,148,136,.14)}
+#landFrame svg.corner{position:absolute;width:74px;height:74px;opacity:.85;filter:drop-shadow(0 2px 4px rgba(120,90,50,.18))}
+#landFrame .tl{top:2px;left:2px}
+#landFrame .tr{top:2px;right:2px;transform:scaleX(-1)}
+#landFrame .bl{bottom:2px;left:2px;transform:scaleY(-1)}
+#landFrame .br{bottom:2px;right:2px;transform:scale(-1,-1)}
+#landRibbon{position:fixed;bottom:0;left:0;right:0;height:60px;z-index:5;display:flex;gap:6px;padding:0 6px 6px;pointer-events:none;
+ background:linear-gradient(180deg,rgba(255,250,240,0),rgba(255,250,240,.72) 45%,rgba(255,250,240,.95))}
+#landRibbon .tile{flex:1;overflow:hidden;border-radius:12px 12px 0 0;border:2px solid rgba(255,255,255,.92);border-bottom:none;box-shadow:0 -2px 10px rgba(120,90,50,.18)}
+#landRibbon .tile img{width:100%;height:100%;object-fit:cover;opacity:.95}
+.app{padding-bottom:74px}
+@media (max-width:520px){#landRibbon{height:50px}#landFrame svg.corner{width:56px;height:56px}.app{padding-bottom:62px}}
 </style>
 </head>
 <body>
-<div id="landBg"></div><div id="landVeil"></div>
+<div id="landMosaic"></div><div id="landBg"></div><div id="landVeil"></div><div id="landFrame"><div class="brd"></div><svg class="corner tl" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<path d="M2 2 C 34 6, 54 22, 62 52" stroke="#7c8f52" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+<path d="M2 2 C 6 30, 20 48, 44 58" stroke="#8a9c5e" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+<ellipse cx="26" cy="12" rx="11" ry="4.6" fill="#7c8f52" transform="rotate(18 26 12)"/>
+<ellipse cx="40" cy="20" rx="10" ry="4.2" fill="#8a9c5e" transform="rotate(30 40 20)"/>
+<ellipse cx="12" cy="30" rx="10" ry="4.2" fill="#8a9c5e" transform="rotate(-32 12 30)"/>
+<ellipse cx="50" cy="34" rx="9" ry="3.8" fill="#7c8f52" transform="rotate(38 50 34)"/>
+<ellipse cx="22" cy="46" rx="9" ry="3.8" fill="#7c8f52" transform="rotate(-26 22 46)"/>
+<ellipse cx="56" cy="48" rx="8" ry="3.4" fill="#8a9c5e" transform="rotate(44 56 48)"/>
+<circle cx="34" cy="26" r="3.4" fill="#9a6b2f"/><circle cx="46" cy="42" r="3" fill="#9a6b2f"/>
+<path d="M6 6 L 0 0" stroke="#9a6b2f" stroke-width="1.6"/>
+</svg><svg class="corner tr" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<path d="M2 2 C 34 6, 54 22, 62 52" stroke="#7c8f52" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+<path d="M2 2 C 6 30, 20 48, 44 58" stroke="#8a9c5e" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+<ellipse cx="26" cy="12" rx="11" ry="4.6" fill="#7c8f52" transform="rotate(18 26 12)"/>
+<ellipse cx="40" cy="20" rx="10" ry="4.2" fill="#8a9c5e" transform="rotate(30 40 20)"/>
+<ellipse cx="12" cy="30" rx="10" ry="4.2" fill="#8a9c5e" transform="rotate(-32 12 30)"/>
+<ellipse cx="50" cy="34" rx="9" ry="3.8" fill="#7c8f52" transform="rotate(38 50 34)"/>
+<ellipse cx="22" cy="46" rx="9" ry="3.8" fill="#7c8f52" transform="rotate(-26 22 46)"/>
+<ellipse cx="56" cy="48" rx="8" ry="3.4" fill="#8a9c5e" transform="rotate(44 56 48)"/>
+<circle cx="34" cy="26" r="3.4" fill="#9a6b2f"/><circle cx="46" cy="42" r="3" fill="#9a6b2f"/>
+<path d="M6 6 L 0 0" stroke="#9a6b2f" stroke-width="1.6"/>
+</svg><svg class="corner bl" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<path d="M2 2 C 34 6, 54 22, 62 52" stroke="#7c8f52" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+<path d="M2 2 C 6 30, 20 48, 44 58" stroke="#8a9c5e" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+<ellipse cx="26" cy="12" rx="11" ry="4.6" fill="#7c8f52" transform="rotate(18 26 12)"/>
+<ellipse cx="40" cy="20" rx="10" ry="4.2" fill="#8a9c5e" transform="rotate(30 40 20)"/>
+<ellipse cx="12" cy="30" rx="10" ry="4.2" fill="#8a9c5e" transform="rotate(-32 12 30)"/>
+<ellipse cx="50" cy="34" rx="9" ry="3.8" fill="#7c8f52" transform="rotate(38 50 34)"/>
+<ellipse cx="22" cy="46" rx="9" ry="3.8" fill="#7c8f52" transform="rotate(-26 22 46)"/>
+<ellipse cx="56" cy="48" rx="8" ry="3.4" fill="#8a9c5e" transform="rotate(44 56 48)"/>
+<circle cx="34" cy="26" r="3.4" fill="#9a6b2f"/><circle cx="46" cy="42" r="3" fill="#9a6b2f"/>
+<path d="M6 6 L 0 0" stroke="#9a6b2f" stroke-width="1.6"/>
+</svg><svg class="corner br" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<path d="M2 2 C 34 6, 54 22, 62 52" stroke="#7c8f52" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+<path d="M2 2 C 6 30, 20 48, 44 58" stroke="#8a9c5e" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+<ellipse cx="26" cy="12" rx="11" ry="4.6" fill="#7c8f52" transform="rotate(18 26 12)"/>
+<ellipse cx="40" cy="20" rx="10" ry="4.2" fill="#8a9c5e" transform="rotate(30 40 20)"/>
+<ellipse cx="12" cy="30" rx="10" ry="4.2" fill="#8a9c5e" transform="rotate(-32 12 30)"/>
+<ellipse cx="50" cy="34" rx="9" ry="3.8" fill="#7c8f52" transform="rotate(38 50 34)"/>
+<ellipse cx="22" cy="46" rx="9" ry="3.8" fill="#7c8f52" transform="rotate(-26 22 46)"/>
+<ellipse cx="56" cy="48" rx="8" ry="3.4" fill="#8a9c5e" transform="rotate(44 56 48)"/>
+<circle cx="34" cy="26" r="3.4" fill="#9a6b2f"/><circle cx="46" cy="42" r="3" fill="#9a6b2f"/>
+<path d="M6 6 L 0 0" stroke="#9a6b2f" stroke-width="1.6"/>
+</svg></div><div id="landRibbon"></div>
 
 <div id="gate">
   <div class="box">
@@ -376,14 +440,14 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;height:6px;z-index:9
 </div>
 
 <audio id="introAudio" src="story.mp3" preload="auto"></audio>
-<audio id="niggun" src="audio/beds/niggun_opening.mp3" preload="auto"></audio>
+<audio id="niggun" src="audio/beds/niggun_kids.mp3" preload="auto"></audio>
 <script>
 /* ====== נתוני הפרשות ====== */
 const SFXPOOL={};
 function sfx(name,vol){
   try{
     let a=SFXPOOL[name];
-    if(!a){const bed=['chords','somber','desert','rain_soft','niggun_opening','stone'].includes(name);
+    if(!a){const bed=['chords','somber','desert','rain_soft','niggun_opening','stone','niggun_kids'].includes(name);
       a=new Audio((bed?'audio/beds/':'audio/sfx/')+name+'.mp3');a.preload='auto';SFXPOOL[name]=a;}
     const el=a.cloneNode ? a.cloneNode() : new Audio(a.src);
     el.volume=Math.min(1,vol||0.2);
@@ -585,6 +649,26 @@ try{fetch('episodes_data.json?v=42').then(r=>r.json()).then(d=>{
   Object.keys(d).forEach(id=>{const e=EPISODES.find(x=>x.id===id);if(e){Object.assign(e,d[id]);} });
   if(typeof renderEpisodeFromHash==='function'){try{renderEpisodeFromHash();}catch(_){}}
 }).catch(e=>console.warn('ep data',e));}catch(e){}
+
+
+/* ===== עטיפת נופי הארץ: פסיפס רקע + סרט תמונות קדמי ===== */
+function buildLandWrap(){
+  try{
+    const ORDER=['land/jerusalem.jpg','land/galilee.jpg','land/negev.jpg','land/shechem.jpg','land/tiberias_old.jpg','land/beersheva.jpg'];
+    const m=document.getElementById('landMosaic');
+    if(m&&!m.dataset.done){
+      m.innerHTML=ORDER.map((src,i)=>`<img src="${src}" alt="" loading="lazy" style="animation-delay:${i*2.3}s">`).join('');
+      m.dataset.done='1';
+    }
+    const r=document.getElementById('landRibbon');
+    if(r&&!r.dataset.done){
+      const T=['land/chevron.jpg','land/jerusalem.jpg','land/galilee_view.jpg','land/negev.jpg','land/shechem_view.jpg','land/tiberias_old.jpg'];
+      r.innerHTML=T.map(src=>`<div class="tile"><img src="${src}" alt="" loading="lazy"></div>`).join('');
+      r.dataset.done='1';
+    }
+  }catch(e){}
+}
+if(document.readyState!=='loading'){buildLandWrap();}else{document.addEventListener('DOMContentLoaded',buildLandWrap);}
 
 /* LAND_OF_ISRAEL */
 const LAND={
