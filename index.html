@@ -416,6 +416,7 @@ function tickSfx(t){
   while(sfxIdx<SFXCUES.length && t>=SFXCUES[sfxIdx][0]){
     const c=SFXCUES[sfxIdx]; sfx(c[1],c[2]); sfxIdx++;
   }
+  if(typeof musicTick==='function') musicTick(t);
 }
 const EPISODES=[
 {id:'lech-lecha',num:'פרק 1',badge:'פרשת לך לך',title:'אברהם ולוט נפרדים',short:'לך לך',
@@ -497,6 +498,7 @@ function startRead(){
     if(cur>=dur){stopSubs(true);return;}
     let i=SEG.findIndex(sg=>cur>=sg[0]&&cur<sg[1]);
     if(i>=0&&i!==si)showSeg(i);
+    musicTick(cur);
     subTimer=setTimeout(tick,250);
   }
   tick();
@@ -505,19 +507,34 @@ function guidedMode(){
   btn.innerHTML='<span class="ic">📖</span> קריאה מודרכת';
   btn.onclick=()=>{
     if(timerKind==='read'){stopSubs(false);return;}
-    startBgm(); startRead();
+    updateMusicWindows(); startRead(); musicTick(0);
   };
 }
-function startBgm(){
-  const bgm=document.getElementById('bgm');
-  if(!bgm)return;
-  bgm.volume=0.13;
-  const pr=bgm.play(); if(pr&&pr.catch)pr.catch(()=>{});
+/* מוזיקה מתוזמנת: נכנסת רק בחלונות שקטים (פתיחה, מעברים, סוף) ולא ברצף */
+let MUSICW=[], musicIdx=0, musicFade=null;
+function updateMusicWindows(){
+  const ep=EPISODES[curIdx]||{};
+  MUSICW = ep.music || [[0,4]];
+  musicIdx=0;
 }
+function musicTick(t){
+  const bgm=document.getElementById('bgm'); if(!bgm) return;
+  const inWin = MUSICW.some(w=>t>=w[0] && t<=w[1]);
+  if(inWin && bgm.paused){
+    bgm.volume=0;
+    const pr=bgm.play(); if(pr&&pr.catch)pr.catch(()=>{});
+    clearInterval(musicFade);
+    musicFade=setInterval(()=>{ if(bgm.paused){clearInterval(musicFade);return;} bgm.volume=Math.min(0.085,bgm.volume+0.015); if(bgm.volume>=0.085)clearInterval(musicFade); },60);
+  } else if(!inWin && !bgm.paused){
+    clearInterval(musicFade);
+    musicFade=setInterval(()=>{ bgm.volume=Math.max(0,bgm.volume-0.02); if(bgm.volume<=0.001){bgm.pause();clearInterval(musicFade);} },60);
+  }
+}
+function startBgm(){ updateMusicWindows(); musicTick(0); }
 function listenClick(){
   const bgm=document.getElementById('bgm');
   if(!audio.paused){
-    audio.pause(); if(bgm)bgm.pause(); listening=false;
+    audio.pause(); if(bgm){bgm.pause();bgm.volume=0;} clearInterval(musicFade); listening=false;
     btn.innerHTML='<span class="ic">▶</span> להמשיך להאזין';
     return;
   }
