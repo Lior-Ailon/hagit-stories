@@ -451,8 +451,19 @@ function sfx(name,vol){
     if(!a){const bed=['chords','somber','desert','rain_soft','niggun_opening','stone','niggun_kids'].includes(name);
       a=new Audio((bed?'audio/beds/':'audio/sfx/')+name+'.mp3');a.preload='auto';SFXPOOL[name]=a;}
     const el=a.cloneNode ? a.cloneNode() : new Audio(a.src);
-    el.volume=Math.min(1,vol||0.2);
+    const v0=Math.min(1,(vol||0.2)*0.6);
+    el.volume=v0;
     const pr=el.play(); if(pr&&pr.catch)pr.catch(()=>{});
+    // דעיכה עדינה אחרי 4 שניות כדי שרקע לא ידרוס את הקריינות
+    let el2=el;
+    setTimeout(()=>{
+      const steps=12; let i=0;
+      const iv=setInterval(()=>{
+        i++;
+        try{ el2.volume=Math.max(0,v0*(1-i/steps)); }catch(e){clearInterval(iv);return;}
+        if(i>=steps){clearInterval(iv); try{el2.pause();}catch(e){}}
+      },150);
+    },4000);
   }catch(e){}
 }
 let SFXCUES=[], sfxIdx=0;
@@ -632,10 +643,10 @@ function musicTick(t){
     bgm.volume=0;
     const pr=bgm.play(); if(pr&&pr.catch)pr.catch(()=>{});
     clearInterval(musicFade);
-    musicFade=setInterval(()=>{ if(bgm.paused){clearInterval(musicFade);return;} bgm.volume=Math.min(0.085,bgm.volume+0.015); if(bgm.volume>=0.085)clearInterval(musicFade); },60);
+    musicFade=setInterval(()=>{ if(bgm.paused){clearInterval(musicFade);return;} bgm.volume=Math.min(0.045,bgm.volume+0.008); if(bgm.volume>=0.045)clearInterval(musicFade); },60);
   } else if(!inWin && !bgm.paused){
     clearInterval(musicFade);
-    musicFade=setInterval(()=>{ bgm.volume=Math.max(0,bgm.volume-0.02); if(bgm.volume<=0.001){bgm.pause();clearInterval(musicFade);} },60);
+    musicFade=setInterval(()=>{ bgm.volume=Math.max(0,bgm.volume-0.012); if(bgm.volume<=0.001){bgm.pause();clearInterval(musicFade);} },60);
   }
 }
 function startBgm(){ updateMusicWindows(); musicTick(0); }
