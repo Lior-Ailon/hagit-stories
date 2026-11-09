@@ -336,6 +336,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;height:6px;z-index:9
         <div class="program-name" id="epTitle">אברהם ולוט נפרדים</div>
         <div class="episode-name" id="epName">פרק 1 · אברהם ולוט נפרדים</div>
         <button class="play-btn" id="playBtn"><span class="ic">▶</span> להאזין לסיפור</button>
+        <div id="resumeChip" style="display:none;margin:8px auto 0;max-width:max-content;background:#f0fdf9;border:2px solid #b8ece0;color:#0b6b62;font-family:'Rubik',sans-serif;font-size:13px;font-weight:600;padding:6px 14px;border-radius:999px;cursor:pointer"></div>
         <div id="modeChip" style="display:none;margin:10px auto 0;max-width:max-content;background:#fff3f8;border:2px solid #ffd9e8;color:#b3396f;font-family:'Rubik',sans-serif;font-size:13.5px;font-weight:600;padding:6px 14px;border-radius:999px">📖 קריאה מודרכת — ההקלטה בדרך</div>
         <div class="intro-line" id="introLine">שלום ילדים אהובים 👋<br>בואו נקשיב היום לסיפור ממש מיוחד, ממש מעניין…</div>
         <div id="subBox" class="idle">לוחצים על הכפתור, והכתוביות יופיעו כאן</div>
@@ -519,6 +520,49 @@ const audio=document.getElementById('introAudio');
 const btn=document.getElementById('playBtn');
 const niggun=document.getElementById('niggun');
 niggun.volume=0.55;
+audio.addEventListener('timeupdate',()=>{ try{ if(!audio.paused && Math.floor(audio.currentTime)%5===0) savePos(audio.currentTime); }catch(e){} });
+audio.addEventListener('loadedmetadata',()=>{ try{ renderResumeChip(); }catch(e){} });
+audio.addEventListener('ended',()=>{ try{ clearPos(); const c=document.getElementById('resumeChip'); if(c)c.style.display='none'; nextEpisodeCard(); }catch(e){} });
+document.addEventListener('visibilitychange',()=>{ try{ if(document.hidden && !audio.paused) savePos(audio.currentTime); }catch(e){} });
+
+
+/* ===== ממשיכים מהמקום שעצרת + הפרק הבא ===== */
+const POSKEY=id=>'hagit_pos_'+id;
+function epId(){ return (EPISODES[curIdx]&&EPISODES[curIdx].id)||'ep'; }
+function savedPos(){ try{ return parseFloat(localStorage.getItem(POSKEY(epId()))||'0')||0; }catch(e){ return 0; } }
+function savePos(t){ try{ localStorage.setItem(POSKEY(epId()), String(Math.floor(t))); }catch(e){} }
+function clearPos(){ try{ localStorage.removeItem(POSKEY(epId())); }catch(e){} }
+function fmt(sec){ const m=Math.floor(sec/60), s=Math.floor(sec%60); return m+':'+String(s).padStart(2,'0'); }
+function renderResumeChip(){
+  const c=document.getElementById('resumeChip'); if(!c) return;
+  const t=savedPos();
+  if(t>20 && audio.duration && t < audio.duration-25){
+    c.style.display='block';
+    c.innerHTML='⏱ ממשיכים מהמקום שעצרת · '+fmt(t)+' &nbsp;|&nbsp; <span style="color:#8b8798;font-weight:500">מההתחלה</span>';
+    c.onclick=(e)=>{
+      if(e.target.tagName==='SPAN'){ clearPos(); c.style.display='none'; try{audio.currentTime=0;}catch(_){} return; }
+      try{ audio.currentTime=t; }catch(_){}
+      if(audio.paused) btn.click();
+      c.style.display='none';
+    };
+  } else if(t>20 && audio.duration && t>=audio.duration-25){
+    clearPos(); c.style.display='none';
+  } else { c.style.display='none'; }
+}
+function nextEpisodeCard(){
+  try{
+    const nxt=EPISODES[curIdx+1];
+    let box=document.getElementById('nextEpBox');
+    if(!nxt){ if(box) box.remove(); return; }
+    if(!box){ box=document.createElement('div'); box.id='nextEpBox';
+      box.style.cssText='margin:16px auto 0;max-width:420px;background:#fffdf7;border:2px solid #e6d7bd;border-radius:18px;padding:14px 16px;text-align:center;box-shadow:0 6px 18px rgba(120,90,50,.12)';
+      const host=document.getElementById('playBtn').parentElement; host.appendChild(box); }
+    box.innerHTML='<div style="font-family:\'Varela Round\',sans-serif;color:#8a5a2b;font-size:15px;margin-bottom:8px">הסיפור הבא מחכה 🎧</div>'+
+      '<button id="nextEpBtn" style="background:#0d9488;color:#fff;border:none;border-radius:999px;padding:10px 20px;font-family:\'Rubik\',sans-serif;font-size:14px;font-weight:700;cursor:pointer">'+nxt.badge+' — '+nxt.title+'</button>';
+    const b=document.getElementById('nextEpBtn');
+    if(b) b.onclick=()=>{ try{ location.hash=nxt.id; location.reload(); }catch(e){} };
+  }catch(e){}
+}
 
 function hlPara(i){
   ps.forEach(p=>p.classList.remove('hl'));
@@ -598,11 +642,12 @@ function startBgm(){ updateMusicWindows(); musicTick(0); }
 function listenClick(){
   const bgm=document.getElementById('bgm');
   if(!audio.paused){
-    audio.pause(); if(bgm){bgm.pause();bgm.volume=0;} clearInterval(musicFade); listening=false;
+    try{ savePos(audio.currentTime); }catch(e){} audio.pause(); if(bgm){bgm.pause();bgm.volume=0;} clearInterval(musicFade); listening=false;
     btn.innerHTML='<span class="ic">▶</span> להמשיך להאזין';
     return;
   }
   audio.play(); listening=true; startBgm(); resetSfx(); tickSfx(audio.currentTime);
+  try{ const sp=savedPos(); if(sp>20 && sp<audio.duration-25){ audio.currentTime=sp; } }catch(e){}
   btn.innerHTML='<span class="ic">⏸</span> עוצרים רגע…';
 }
 function buildMemory(pairs){
