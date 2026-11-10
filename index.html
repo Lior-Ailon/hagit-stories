@@ -628,7 +628,7 @@ function axLoad(url){
   AX.buf[url].catch(()=>{delete AX.buf[url];});
   return AX.buf[url];
 }
-function axPlay(url,{gain=AMB_GAIN,fadeIn=1.2,hold=6,fadeOut=2.5,loop=false,rand=false}={}){
+function axPlay(url,{gain=AMB_GAIN,fadeIn=1.2,hold=6,fadeOut=2.5,loop=false,rand=false,at=null}={}){
   const ctx=axCtx(); if(!ctx) return null;
   const h={stop:null,src:null,g:null,dead:false};
   axLoad(url).then(buf=>{
@@ -637,7 +637,8 @@ function axPlay(url,{gain=AMB_GAIN,fadeIn=1.2,hold=6,fadeOut=2.5,loop=false,rand
     const g=ctx.createGain(); const t=ctx.currentTime;
     /* rand: מתחילים מנקודה אקראית בקובץ — כך אותו קול לא נשמע זהה בכל פעם */
     const span=fadeIn+hold+fadeOut;
-    const off=!rand?0:(loop?Math.random()*buf.duration:Math.random()*Math.max(0,buf.duration-span-0.1));
+    /* at: נקודת התחלה מדויקת בקובץ (למשל רגע הנעירה החזק ביותר של החמור) */
+    const off=(at!=null)?Math.min(at,Math.max(0,buf.duration-span-0.05)):(!rand?0:(loop?Math.random()*buf.duration:Math.random()*Math.max(0,buf.duration-span-0.1)));
     g.gain.setValueAtTime(0.0001,t); g.gain.linearRampToValueAtTime(gain,t+fadeIn);
     src.connect(g).connect(ctx.destination); src.start(t,off);
     if(!loop){ const end=Math.min(buf.duration-off,span);
@@ -675,9 +676,13 @@ function sprinkleNext(sc,key){
 }
 function bedStop(fo){ AX.beds.forEach(h=>{ if(h) h.stop(fo||1); }); AX.beds=[]; clearTimeout(AX.sprk); AX.sprk=null; AX.bedKey=''; }
 function axMusicStop(fo=1.4){ if(AX.music){ AX.music.stop(fo); AX.music=null; } }
-function sfx(name,vol,hold,rand){
+/* קולות חיות: מתחילים מיד (בלי עלייה איטית) כדי שהנעירה תישמע ברגע שמזכירים את החמור */
+const ANIMALS=['donkey','donkey2','camel','sheep','flock','goat','barnyard','barn','rooster','owl'];
+function sfx(name,vol,hold,rand,at){
   const url=(BEDS.includes(name)?'audio/beds/':'audio/sfx/')+name+'.mp3';
-  axPlay(url,{gain:AMB_GAIN*Math.min(1.6,vol||1),hold:hold||6,rand:!!rand});
+  const an=ANIMALS.includes(name);
+  axPlay(url,{gain:AMB_GAIN*Math.min(1.6,vol||1),hold:hold||6,rand:!!rand,at:at==null?null:at,
+    fadeIn:an?0.12:1.2,fadeOut:an?1.2:2.5});
 }
 let SFXCUES=[], sfxIdx=0;
 function sfxForText(txt,key){
@@ -703,7 +708,7 @@ function sfxForText(txt,key){
 function resetSfx(t){ SFXCUES=(EPISODES[curIdx]&&EPISODES[curIdx].cues)||[]; sfxIdx=0; if(t){ while(sfxIdx<SFXCUES.length && SFXCUES[sfxIdx][0]<t-1) sfxIdx++; } }
 function tickSfx(t){
   while(sfxIdx<SFXCUES.length && t>=SFXCUES[sfxIdx][0]){
-    const c=SFXCUES[sfxIdx]; if(t-c[0]<3) sfx(c[1],c[2],c[3]); sfxIdx++;
+    const c=SFXCUES[sfxIdx]; if(t-c[0]<3) sfx(c[1],c[2],c[3],c[4]==null,c[4]); sfxIdx++;
   }
   if(typeof musicTick==='function') musicTick(t);
   if(typeof bedTick==='function' && !audio.paused) bedTick(t);
@@ -912,7 +917,7 @@ function renderBar(){
   bar.querySelectorAll('.ep').forEach(el=>el.addEventListener('click',()=>renderEpisode(+el.dataset.i)));
 }
 /* EP_DATA_INJECTED */
-try{fetch('episodes_data.json?v=62').then(r=>r.json()).then(d=>{
+try{fetch('episodes_data.json?v=63').then(r=>r.json()).then(d=>{
   Object.keys(d).forEach(id=>{const e=EPISODES.find(x=>x.id===id);if(e){Object.assign(e,d[id]);} });
   if(typeof renderEpisodeFromHash==='function'){try{renderEpisodeFromHash();}catch(_){}}
 }).catch(e=>console.warn('ep data',e));}catch(e){}
