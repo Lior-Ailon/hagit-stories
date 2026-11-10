@@ -341,6 +341,70 @@ body{font-family:'Rubik','Varela Round',system-ui,sans-serif !important}
 @media (min-width:900px){.grid{grid-template-columns:minmax(0,1.35fr) minmax(320px,1fr) !important;gap:24px !important;padding:0 16px}.about-card{width:auto !important;max-width:none !important}}
 @media (prefers-reduced-motion:reduce){.hero2 .hero-img,.hero2 .stars{animation:none}}
 </style>
+<style id="kidsPlay">
+/* ===== עיצוב לילדים: כפתורים גדולים, משחקיות ומשוב בזמן האזנה ===== */
+body{-webkit-tap-highlight-color:transparent;background:#f6eedd linear-gradient(180deg,#d9ecff 0,#f6eedd 460px) no-repeat !important}
+html{background:#f6eedd !important}
+/* כפתור הפעלה גדול שמזמין ללחוץ */
+.play-btn{min-height:68px;font-size:clamp(20px,5.4vw,25px) !important;padding:16px 40px !important;animation:invite 2.6s ease-in-out infinite;touch-action:manipulation}
+body.playing .play-btn{animation:none}
+@keyframes invite{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+/* תמונת הפרק "נושמת" וזוהרת בזמן שהסיפור מתנגן */
+body.playing .episode-photo{animation:breathe 3.2s ease-in-out infinite;
+ box-shadow:0 0 0 8px rgba(246,194,43,.38),0 0 0 18px rgba(246,194,43,.16),0 10px 26px rgba(42,47,74,.25) !important}
+@keyframes breathe{50%{transform:scale(1.05)}}
+/* גלי קול */
+.wave{display:none;justify-content:center;align-items:flex-end;gap:6px;height:36px;margin:16px auto 0}
+body.playing .wave{display:flex}
+.wave i{display:block;width:8px;height:8px;border-radius:99px;background:linear-gradient(180deg,var(--gold),var(--terra));animation:bar 1s ease-in-out infinite}
+.wave i:nth-child(2){animation-delay:.12s}.wave i:nth-child(3){animation-delay:.26s}.wave i:nth-child(4){animation-delay:.05s}
+.wave i:nth-child(5){animation-delay:.34s}.wave i:nth-child(6){animation-delay:.18s}.wave i:nth-child(7){animation-delay:.28s}
+@keyframes bar{0%,100%{height:8px}50%{height:32px}}
+/* תווים וכוכבים שעולים באוויר */
+.notes{display:none;position:absolute;inset:auto 0 0 0;height:70%;pointer-events:none;overflow:hidden;z-index:1}
+body.playing .notes{display:block}
+.notes span{position:absolute;bottom:-30px;font-size:26px;opacity:0;animation:floatUp 6s ease-in infinite}
+.notes span:nth-child(1){right:9%;animation-delay:0s}
+.notes span:nth-child(2){left:10%;animation-delay:1.4s}
+.notes span:nth-child(3){right:22%;animation-delay:2.8s;font-size:30px}
+.notes span:nth-child(4){left:24%;animation-delay:4.1s}
+.notes span:nth-child(5){right:5%;animation-delay:5s;font-size:22px}
+@keyframes floatUp{0%{transform:translateY(0) rotate(-8deg);opacity:0}15%{opacity:.9}100%{transform:translateY(-230px) rotate(10deg);opacity:0}}
+/* כרטיסי פרקים: אייקון לכל פרק ושטח לחיצה נוח */
+.eps .ep{flex-basis:186px !important}
+.eps .ep:active{transform:scale(.96)}
+.eps .ep .thumb::before{position:absolute;top:8px;right:8px;width:38px;height:38px;border-radius:50%;background:#fff;display:grid;place-items:center;
+ font-size:22px;box-shadow:0 4px 10px rgba(0,0,0,.22);z-index:1}
+.eps .ep[data-id="lech-lecha"] .thumb::before{content:'🐑'}
+.eps .ep[data-id="toldot"] .thumb::before{content:'🍲'}
+.eps .ep[data-id="vayetzei"] .thumb::before{content:'🪜'}
+.eps .ep .thumb::after{width:42px !important;height:42px !important;font-size:16px !important}
+.eps-head{font-size:21px !important}
+.eps-head span{font-size:14px !important}
+/* נגן: כפתורי דילוג וסרגל גדולים ונוחים לאצבע */
+.pp-skip{min-height:44px;font-size:14px !important;padding:8px 14px !important;touch-action:manipulation}
+.pp-track{height:16px !important}
+.pp-time{font-size:14px !important;font-weight:600}
+/* חידון ומשחק זיכרון */
+.act-tab{min-height:50px;font-size:15.5px !important;display:flex;align-items:center;justify-content:center;touch-action:manipulation}
+.act-tab.on{border-color:var(--gold) !important;background:linear-gradient(135deg,#fff6d6,#ffe9a6) !important}
+.ans-btn{min-height:46px;font-size:16px !important;padding:10px 24px !important;background:var(--sky) !important;touch-action:manipulation}
+.trivia-q{border-radius:22px !important;border-color:#cfe4f7 !important;background:#f5faff !important}
+.trivia-q .qt{font-size:17px !important}
+.trivia-a{font-size:16px !important}
+.mem-grid{gap:12px !important;max-width:440px !important}
+.mem-card{border-radius:22px !important;background:linear-gradient(135deg,var(--sky2),var(--sky)) !important;box-shadow:0 5px 0 #24548c;touch-action:manipulation}
+.mem-card:active{transform:translateY(3px);box-shadow:0 2px 0 #24548c}
+.mem-card.open{box-shadow:0 5px 0 #e3d2b4}
+.mem-card.done{animation:pop .45s}
+.mem-score{font-size:18px !important}
+/* כפתור שיתוף והצטרפות */
+.share-btn,.join-btn{min-height:50px}
+@media (prefers-reduced-motion:reduce){
+ .play-btn,body.playing .episode-photo,.wave i,.notes span,.mem-card.done{animation:none !important}
+ .wave i{height:20px}.notes{display:none !important}
+}
+</style>
 </head>
 <body>
 <div id="landMosaic"></div><div id="landBg"></div><div id="landVeil"></div><div id="landFrame"><div class="brd"></div><svg class="corner tl" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -428,6 +492,8 @@ body{font-family:'Rubik','Varela Round',system-ui,sans-serif !important}
         <div class="program-name" id="epTitle">אברהם ולוט נפרדים</div>
         <div class="episode-name" id="epName">פרק 1 · אברהם ולוט נפרדים</div>
         <button class="play-btn" id="playBtn"><span class="ic">▶</span> להאזין לסיפור</button>
+        <div class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="notes" aria-hidden="true"><span>♪</span><span>⭐</span><span>♫</span><span>✨</span><span>♪</span></div>
         <div class="pod-player" id="podPlayer">
           <button class="pp-skip" data-s="15" aria-label="קדימה 15 שניות">15+ ⏩</button>
           <div class="pp-track" id="ppTrack"><div class="pp-fill" id="ppFill"></div></div>
@@ -499,16 +565,16 @@ body{font-family:'Rubik','Varela Round',system-ui,sans-serif !important}
         <h3>🎁 בוחרים תוכנית</h3>
         <p class="plans-hint">כל התוכניות כוללות: סיפור לכל פרשה + קבוצת הוואטסאפ</p>
         <div class="plan" data-name="חודשי שותפים" onclick="pickPlan(this)">
-          <div class="plan-head"><span class="plan-name">שותפים לחלום 💫</span><span class="plan-price">29 ₪<small>/חודש</small></span></div>
+          <div class="plan-head"><span class="plan-name">שותפים לחלום 💫</span><span class="plan-price">9.90 ₪<small>/חודש בלבד</small></span></div>
           <div class="plan-cond">התנאי הקטן: משתפים את הסיפור בסטטוס וב-2 קבוצות וואטסאפ — והופכים לשותפים להפצת הסיפורים 🎈</div>
         </div>
-        <div class="plan best" data-name="שנתי שותפים" onclick="pickPlan(this)">
+        <div class="plan best" data-name="חודשי שותפים פלוס" onclick="pickPlan(this)">
           <div class="plan-badge">המשתלם ביותר</div>
-          <div class="plan-head"><span class="plan-name">שנתי שותפים לחלום ✨</span><span class="plan-price">199 ₪<small>/שנה</small></span></div>
-          <div class="plan-cond">כמו החודשי — לכל השנה, במחיר של 8 חודשים. אותו תנאי שיתוף קטן 🎈</div>
+          <div class="plan-head"><span class="plan-name">שותפים לחלום ✨</span><span class="plan-price">39.90 ₪<small>/חודש</small></span></div>
+          <div class="plan-cond">אותו תנאי שיתוף קטן 🎈</div>
         </div>
         <div class="plan" data-name="חודשי מלא" onclick="pickPlan(this)">
-          <div class="plan-head"><span class="plan-name">מנוי חופשי 🌈</span><span class="plan-price">59 ₪<small>/חודש</small></span></div>
+          <div class="plan-head"><span class="plan-name">מנוי חופשי 🌈</span><span class="plan-price">69.90 ₪<small>/חודש</small></span></div>
           <div class="plan-cond">בלי תנאים בכלל — פשוט נהנים מהסיפורים</div>
         </div>
         <a class="join-btn" id="joinBtn" href="#" style="display:none">🎈 מצטרפים לתוכנית שבחרתם</a>
@@ -562,16 +628,19 @@ function axLoad(url){
   AX.buf[url].catch(()=>{delete AX.buf[url];});
   return AX.buf[url];
 }
-function axPlay(url,{gain=AMB_GAIN,fadeIn=1.2,hold=6,fadeOut=2.5,loop=false}={}){
+function axPlay(url,{gain=AMB_GAIN,fadeIn=1.2,hold=6,fadeOut=2.5,loop=false,rand=false}={}){
   const ctx=axCtx(); if(!ctx) return null;
   const h={stop:null,src:null,g:null,dead:false};
   axLoad(url).then(buf=>{
     if(h.dead) return;
     const src=ctx.createBufferSource(); src.buffer=buf; src.loop=loop;
     const g=ctx.createGain(); const t=ctx.currentTime;
+    /* rand: מתחילים מנקודה אקראית בקובץ — כך אותו קול לא נשמע זהה בכל פעם */
+    const span=fadeIn+hold+fadeOut;
+    const off=!rand?0:(loop?Math.random()*buf.duration:Math.random()*Math.max(0,buf.duration-span-0.1));
     g.gain.setValueAtTime(0.0001,t); g.gain.linearRampToValueAtTime(gain,t+fadeIn);
-    src.connect(g).connect(ctx.destination); src.start(t);
-    if(!loop){ const end=Math.min(buf.duration,fadeIn+hold+fadeOut);
+    src.connect(g).connect(ctx.destination); src.start(t,off);
+    if(!loop){ const end=Math.min(buf.duration-off,span);
       g.gain.setValueAtTime(gain,t+end-fadeOut); g.gain.linearRampToValueAtTime(0.0001,t+end); src.stop(t+end+0.05); }
     h.src=src; h.g=g; AX.live.add(h); src.onended=()=>AX.live.delete(h);
   }).catch(()=>{});
@@ -581,20 +650,34 @@ function axPlay(url,{gain=AMB_GAIN,fadeIn=1.2,hold=6,fadeOut=2.5,loop=false}={})
 function axStopAll(fo){ AX.live.forEach(h=>h.stop(fo)); AX.live.clear(); axMusicStop(fo); try{bedStop(fo);}catch(e){} }
 function axMusicStart(){ if(AX.music && !AX.music.dead) return; const ep=EPISODES[curIdx]||{}; AX.music=axPlay(ep.theme||'bgm.mp3',{gain:MUS_GAIN,fadeIn:0.8,loop:true}); }
 /* רקע רציף לפי סצנה: לולאה שקטה (כ-27dB מתחת לקול) שמתחלפת בהצלבה */
-const BED_GAIN=AMB_GAIN*0.42; AX.bed=null; AX.bedKey='';
+/* סצנה = [התחלה, סיום, 'לולאה' או 'לולאה+לולאה', עוצמה, [קולות רקע אקראיים], [מרווח מינ׳, מרווח מקס׳ בשניות]] */
+const BED_GAIN=AMB_GAIN*0.42; AX.beds=[]; AX.bedKey=''; AX.sprk=null;
 function bedTick(t){
   const ep=EPISODES[curIdx]||{}; const sc=(ep.scenes||[]).find(s=>t>=s[0]&&t<s[1]);
   const key=sc?sc[2]+'@'+sc[0]:'';
   if(key===AX.bedKey) return;
-  if(AX.bed){ AX.bed.stop(3); AX.bed=null; }
+  bedStop(3);
   AX.bedKey=key;
-  if(sc) AX.bed=axPlay('audio/loops/'+sc[2]+'_loop.mp3',{gain:BED_GAIN*(sc[3]||1),fadeIn:3,loop:true});
+  if(!sc) return;
+  sc[2].split('+').forEach(k=>{
+    AX.beds.push(axPlay('audio/loops/'+k+'_loop.mp3',{gain:BED_GAIN*(sc[3]||1),fadeIn:3,loop:true,rand:true}));
+  });
+  if(sc[4]&&sc[4].length) sprinkleNext(sc,key);
 }
-function bedStop(fo){ if(AX.bed){AX.bed.stop(fo||1);AX.bed=null;} AX.bedKey=''; }
+/* קולות רקע חיים (כבשים, ציפורים…) שמופיעים מדי פעם, ברחוק ובשקט */
+function sprinkleNext(sc,key){
+  const gap=sc[5]||[8,18];
+  AX.sprk=setTimeout(()=>{
+    if(AX.bedKey!==key||audio.paused) return;
+    const names=sc[4]; sfx(names[Math.floor(Math.random()*names.length)],0.4+Math.random()*0.25,3.5+Math.random()*3,true);
+    sprinkleNext(sc,key);
+  },(gap[0]+Math.random()*(gap[1]-gap[0]))*1000);
+}
+function bedStop(fo){ AX.beds.forEach(h=>{ if(h) h.stop(fo||1); }); AX.beds=[]; clearTimeout(AX.sprk); AX.sprk=null; AX.bedKey=''; }
 function axMusicStop(fo=1.4){ if(AX.music){ AX.music.stop(fo); AX.music=null; } }
-function sfx(name,vol,hold){
+function sfx(name,vol,hold,rand){
   const url=(BEDS.includes(name)?'audio/beds/':'audio/sfx/')+name+'.mp3';
-  axPlay(url,{gain:AMB_GAIN*Math.min(1.6,vol||1),hold:hold||6});
+  axPlay(url,{gain:AMB_GAIN*Math.min(1.6,vol||1),hold:hold||6,rand:!!rand});
 }
 let SFXCUES=[], sfxIdx=0;
 function sfxForText(txt,key){
@@ -666,6 +749,9 @@ audio.addEventListener('timeupdate',()=>{ try{ if(!audio.paused && Math.floor(au
 audio.addEventListener('loadedmetadata',()=>{ try{ renderResumeChip(); }catch(e){} });
 audio.addEventListener('seeked',()=>{ try{ axStopAll(0.4); resetSfx(audio.currentTime); if(!audio.paused){ musicTick(audio.currentTime); bedTick(audio.currentTime);} }catch(e){} });
 audio.addEventListener('pause',()=>{ if(!audio.ended) axStopAll(0.5); });
+/* משוב חזותי בזמן האזנה: הילד רואה שהסיפור מתנגן (גלים, תווים וטבעת זוהרת) */
+['play','playing'].forEach(ev=>audio.addEventListener(ev,()=>document.body.classList.add('playing')));
+['pause','ended'].forEach(ev=>audio.addEventListener(ev,()=>document.body.classList.remove('playing')));
 audio.addEventListener('ended',()=>{ try{ clearPos(); const c=document.getElementById('resumeChip'); if(c)c.style.display='none'; nextEpisodeCard(); }catch(e){} });
 document.addEventListener('visibilitychange',()=>{ try{ if(document.hidden && !audio.paused) savePos(audio.currentTime); }catch(e){} });
 
@@ -822,11 +908,11 @@ const EP_THUMB={'lech-lecha':'land/beersheva.jpg','toldot':'land/chevron.jpg','v
 function renderBar(){
   const bar=document.getElementById('epsBar');
   bar.innerHTML=EPISODES.map((e,i)=>
-    `<div class="ep ${i===curIdx?'on':''}" data-i="${i}"><div class="thumb" style="background-image:url('${EP_THUMB[e.id]||'land/jerusalem.jpg'}')"></div><span class="meta"><span class="epn">${e.num}</span><span class="ept">${e.short}</span><span class="epp">${e.title}</span></span></div>`).join('');
+    `<div class="ep ${i===curIdx?'on':''}" data-i="${i}" data-id="${e.id}"><div class="thumb" style="background-image:url('${EP_THUMB[e.id]||'land/jerusalem.jpg'}')"></div><span class="meta"><span class="epn">${e.num}</span><span class="ept">${e.short}</span><span class="epp">${e.title}</span></span></div>`).join('');
   bar.querySelectorAll('.ep').forEach(el=>el.addEventListener('click',()=>renderEpisode(+el.dataset.i)));
 }
 /* EP_DATA_INJECTED */
-try{fetch('episodes_data.json?v=61').then(r=>r.json()).then(d=>{
+try{fetch('episodes_data.json?v=62').then(r=>r.json()).then(d=>{
   Object.keys(d).forEach(id=>{const e=EPISODES.find(x=>x.id===id);if(e){Object.assign(e,d[id]);} });
   if(typeof renderEpisodeFromHash==='function'){try{renderEpisodeFromHash();}catch(_){}}
 }).catch(e=>console.warn('ep data',e));}catch(e){}
