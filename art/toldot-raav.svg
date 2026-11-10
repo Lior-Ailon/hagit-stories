@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="ארץ יבשה בשעת שקיעה, באר ריקה וכוכבים רבים בשמיים: ההבטחה ליצחק">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1c2a6e"/><stop offset=".45" stop-color="#6a559f"/><stop offset=".75" stop-color="#f2a66f"/><stop offset="1" stop-color="#ffd9a0"/></linearGradient>
+    <path id="star" d="M0 -10 L2.6 -2.6 L10 0 L2.6 2.6 L0 10 L-2.6 2.6 L-10 0 L-2.6 -2.6Z"/>
+  </defs>
+  <rect width="400" height="400" fill="url(#sky)"/>
+  <!-- many stars: "like the stars of the sky" -->
+  <g fill="#fff3c9">
+    <use href="#star" x="60" y="48"/><use href="#star" x="150" y="86" transform="translate(150 86) scale(.7) translate(-150 -86)"/><use href="#star" x="236" y="40" transform="translate(236 40) scale(1.2) translate(-236 -40)"/>
+    <use href="#star" x="330" y="82"/><use href="#star" x="296" y="140" transform="translate(296 140) scale(.6) translate(-296 -140)"/><use href="#star" x="100" y="140" transform="translate(100 140) scale(.6) translate(-100 -140)"/>
+    <use href="#star" x="190" y="150" transform="translate(190 150) scale(.5) translate(-190 -150)"/><use href="#star" x="372" y="30" transform="translate(372 30) scale(.6) translate(-372 -30)"/><use href="#star" x="22" y="110" transform="translate(22 110) scale(.5) translate(-22 -110)"/>
+  </g>
+  <g fill="#fff"><circle cx="120" cy="30" r="1.6"/><circle cx="200" cy="108" r="1.4"/><circle cx="270" cy="96" r="1.6"/><circle cx="350" cy="150" r="1.4"/><circle cx="40" cy="170" r="1.4"/><circle cx="170" cy="60" r="1.3"/><circle cx="318" cy="34" r="1.5"/></g>
+  <!-- dry hills and cracked ground -->
+  <path d="M0 262 Q90 232 190 256 T400 246 V400 H0Z" fill="#d9a85f"/>
+  <path d="M0 308 Q120 280 250 306 T400 298 V400 H0Z" fill="#c8924a"/>
+  <path d="M0 352 Q140 330 260 350 T400 344 V400 H0Z" fill="#b57e3a"/>
+  <g stroke="#8a5a2a" stroke-width="2.4" fill="none" stroke-linecap="round" opacity=".75">
+    <path d="M40 330 l16 10 l-6 14 l18 8"/><path d="M110 340 l-12 12 l10 12"/><path d="M180 322 l14 8 l-4 14 l16 6"/><path d="M250 346 l-16 8 l8 14 l-10 8"/>
+    <path d="M320 332 l12 10 l-8 12 l14 8"/><path d="M360 366 l-14 10"/>
+  </g>
+  <!-- withered stalks -->
+  <g stroke="#8a6a35" stroke-width="3" fill="none" stroke-linecap="round">
+    <path d="M70 306 C66 288 74 274 66 258"/><path d="M92 312 C96 294 88 282 96 266"/><path d="M290 302 C286 284 294 270 288 254"/><path d="M312 306 C316 290 308 280 316 266"/>
+  </g>
+  <g fill="#a98745"><ellipse cx="66" cy="254" rx="3" ry="6"/><ellipse cx="96" cy="262" rx="3" ry="6"/><ellipse cx="288" cy="250" rx="3" ry="6"/><ellipse cx="316" cy="262" rx="3" ry="6"/></g>
+  <!-- a tent on the far hill -->
+  <g transform="translate(206 262)"><polygon points="-34,16 0,-28 34,16" fill="#8a5a3a"/><polygon points="-9,16 0,-28 9,16" fill="#6e4429"/><polygon points="-10,16 0,-4 10,16" fill="#40281a"/></g>
+  <!-- the empty well -->
+  <g transform="translate(170 346)">
+    <ellipse cx="0" cy="0" rx="46" ry="14" fill="#6e6a76"/><path d="M-46 0 V-26 A46 14 0 0 1 46 -26 V0 A46 14 0 0 1 -46 0Z" fill="#a39fae"/>
+    <ellipse cx="0" cy="-26" rx="46" ry="14" fill="#c8c4d0"/><ellipse cx="0" cy="-26" rx="34" ry="9" fill="#2b2833"/>
+    <g stroke="#7d7988" stroke-width="2"><line x1="-18" y1="-14" x2="-18" y2="-2"/><line x1="4" y1="-12" x2="4" y2="0"/><line x1="24" y1="-16" x2="24" y2="-3"/></g>
+    <path d="M-34 -26 V-74 M34 -26 V-74" stroke="#6e4a2c" stroke-width="6" stroke-linecap="round"/><line x1="-38" y1="-76" x2="38" y2="-76" stroke="#6e4a2c" stroke-width="6" stroke-linecap="round"/>
+    <path d="M0 -76 V-46" stroke="#4a3a2a" stroke-width="2.4"/><path d="M-9 -46 H9 L7 -34 H-7Z" fill="#c98b52"/>
+  </g>
+</svg>
