@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="שתי דרכים ביום בהיר: אוהלים וצאן משני צדי הדרך">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9fd3ff"/><stop offset=".65" stop-color="#ffeec2"/><stop offset="1" stop-color="#ffe0a3"/></linearGradient>
+    <radialGradient id="sun" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff6c4"/><stop offset=".45" stop-color="#ffd966"/><stop offset="1" stop-color="#ffd966" stop-opacity="0"/></radialGradient>
+    <g id="sheep">
+      <ellipse cx="0" cy="0" rx="17" ry="12" fill="#fffdf7"/><circle cx="-10" cy="-8" r="8" fill="#fffdf7"/><circle cx="10" cy="-8" r="8" fill="#fffdf7"/><circle cx="0" cy="-12" r="8" fill="#fffdf7"/>
+      <ellipse cx="-17" cy="-3" rx="7" ry="6" fill="#4a3a35"/><circle cx="-19" cy="-5" r="1.3" fill="#fff"/>
+      <rect x="-9" y="9" width="3.4" height="9" rx="1.5" fill="#4a3a35"/><rect x="6" y="9" width="3.4" height="9" rx="1.5" fill="#4a3a35"/>
+    </g>
+  </defs>
+  <rect width="400" height="400" fill="url(#sky)"/>
+  <circle cx="300" cy="105" r="78" fill="url(#sun)"/><circle cx="300" cy="105" r="30" fill="#ffd24d"/>
+  <path d="M0 235 Q70 190 140 222 T280 215 T400 205 V400 H0Z" fill="#d9e6a5"/>
+  <path d="M0 262 Q90 222 180 258 T400 240 V400 H0Z" fill="#9fcb6b"/>
+  <path d="M0 305 Q120 270 220 300 T400 290 V400 H0Z" fill="#e9c56c"/>
+  <!-- the road that splits in two -->
+  <path d="M200 400 C196 350 190 320 150 285 C128 266 112 258 96 252" fill="none" stroke="#f9e6b4" stroke-width="22" stroke-linecap="round"/>
+  <path d="M200 400 C204 350 212 320 252 285 C274 266 290 258 306 252" fill="none" stroke="#f9e6b4" stroke-width="22" stroke-linecap="round"/>
+  <!-- left tent -->
+  <g transform="translate(78 236)"><polygon points="-46,22 0,-38 46,22" fill="#c98b52"/><polygon points="-10,22 0,-38 10,22" fill="#a96d3a"/><polygon points="-14,22 0,-6 14,22" fill="#6e4a2c"/><line x1="0" y1="-38" x2="0" y2="-48" stroke="#6e4a2c" stroke-width="3"/></g>
+  <!-- right tent -->
+  <g transform="translate(322 236)"><polygon points="-46,22 0,-38 46,22" fill="#d9a05b"/><polygon points="-10,22 0,-38 10,22" fill="#bd8445"/><polygon points="-14,22 0,-6 14,22" fill="#6e4a2c"/><line x1="0" y1="-38" x2="0" y2="-48" stroke="#6e4a2c" stroke-width="3"/></g>
+  <!-- sheep -->
+  <use href="#sheep" transform="translate(40 300) scale(.95)"/><use href="#sheep" transform="translate(108 312) scale(.8) scale(-1 1)"/><use href="#sheep" transform="translate(150 332)"/>
+  <use href="#sheep" transform="translate(262 330) scale(-1 1)"/><use href="#sheep" transform="translate(338 306) scale(.9)"/><use href="#sheep" transform="translate(372 336) scale(.75) scale(-1 1)"/>
+  <!-- olive tree in the middle -->
+  <g transform="translate(200 222)"><rect x="-4" y="0" width="8" height="30" rx="3" fill="#7a5638"/><circle cx="0" cy="-8" r="22" fill="#7fae4e"/><circle cx="-16" cy="2" r="14" fill="#6f9d42"/><circle cx="16" cy="2" r="14" fill="#8cba58"/></g>
+</svg>

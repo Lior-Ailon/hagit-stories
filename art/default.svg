@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="גבעות וזית בשקיעה">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fc7ff"/><stop offset=".6" stop-color="#ffe6b5"/><stop offset="1" stop-color="#ffd596"/></linearGradient>
+    <radialGradient id="sun" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff2b8"/><stop offset=".5" stop-color="#ffd24d"/><stop offset="1" stop-color="#ffd24d" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="400" height="400" fill="url(#sky)"/>
+  <circle cx="200" cy="170" r="110" fill="url(#sun)"/><circle cx="200" cy="170" r="42" fill="#ffd24d"/>
+  <path d="M0 250 Q100 206 200 244 T400 228 V400 H0Z" fill="#d9e6a5"/>
+  <path d="M0 292 Q130 254 250 288 T400 276 V400 H0Z" fill="#9fcb6b"/>
+  <path d="M0 340 Q120 312 230 336 T400 326 V400 H0Z" fill="#e9c56c"/>
+  <g transform="translate(112 268)"><rect x="-5" y="0" width="10" height="44" rx="4" fill="#7a5638"/><circle cx="0" cy="-12" r="32" fill="#7fae4e"/><circle cx="-22" cy="4" r="20" fill="#6f9d42"/><circle cx="22" cy="4" r="20" fill="#8cba58"/></g>
+  <g fill="#fff"><circle cx="40" cy="60" r="1.6" opacity=".8"/><circle cx="350" cy="80" r="1.6" opacity=".8"/></g>
+</svg>
