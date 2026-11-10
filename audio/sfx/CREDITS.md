@@ -27,6 +27,7 @@
 | wind.mp3 | רוח בשדה |
 | rain.mp3 | גשם |
 | thunder.mp3 | רעם |
+| heartbeat.mp3 | פעימות לב ("בום בום בום"), נוצר בקוד: synth_heartbeat.py |
 
 ## לולאות רקע סינתטיות — audio/loops
 נוצרו בקוד עבור הפרויקט (audio/loops/synth_ambient.py). אין צד שלישי, אין רישיון, אין מגבלה.
