@@ -400,6 +400,13 @@ body.playing .notes{display:block}
 .mem-card.open{box-shadow:0 5px 0 #e3d2b4}
 .mem-card.done{animation:pop .45s}
 .mem-score{font-size:18px !important}
+/* "נעים להכיר": גדול וקריא יותר, בכתב עבה */
+.about-card h2{font-size:clamp(26px,4.8vw,32px) !important}
+.about-card .hello .nm{font-size:26px !important;font-weight:900 !important}
+.about-card .hello .rl{font-size:16px !important;font-weight:700 !important}
+.about-card p{font-size:clamp(18px,3.1vw,21px) !important;font-weight:700 !important;line-height:1.9 !important}
+.about-quote{font-size:clamp(19px,3.2vw,22px) !important;font-weight:800 !important}
+.age-pill{font-size:16px !important;font-weight:800 !important}
 /* כפתור שיתוף והצטרפות */
 .share-btn,.join-btn{min-height:50px}
 @media (prefers-reduced-motion:reduce){
@@ -672,19 +679,21 @@ function sprinkleNext(sc,key){
   const gap=sc[5]||[8,18];
   AX.sprk=setTimeout(()=>{
     if(AX.bedKey!==key||audio.paused) return;
-    const names=sc[4]; sfx(names[Math.floor(Math.random()*names.length)],0.4+Math.random()*0.25,3.5+Math.random()*3,true);
+    const names=sc[4]; sfx(names[Math.floor(Math.random()*names.length)],(0.4+Math.random()*0.25)*(sc[6]||1),3.5+Math.random()*3,true);
     sprinkleNext(sc,key);
   },(gap[0]+Math.random()*(gap[1]-gap[0]))*1000);
 }
 function bedStop(fo){ AX.beds.forEach(h=>{ if(h) h.stop(fo||1); }); AX.beds=[]; clearTimeout(AX.sprk); AX.sprk=null; AX.bedKey=''; }
 function axMusicStop(fo=1.4){ if(AX.music){ AX.music.stop(fo); AX.music=null; } }
 /* קולות חיות: מתחילים מיד (בלי עלייה איטית) כדי שהנעירה תישמע ברגע שמזכירים את החמור */
-const ANIMALS=['donkey','donkey2','camel','sheep','flock','goat','barnyard','barn','rooster','owl'];
-function sfx(name,vol,hold,rand,at){
+const ANIMALS=['donkey','donkey2','camel','sheep','flock','goat','barnyard','barn','rooster','owl','wolf','lion','growl','baby1','baby2','bell'];
+/* צלילים קצרים וקצביים: מתחילים מיד כדי להיות מסונכרנים עם המילה */
+const PERC=['tok','heartbeat','heartbeat_fast','heavy_steps','steps_away'];
+function sfx(name,vol,hold,rand,at,fo){
   const url=(BEDS.includes(name)?'audio/beds/':'audio/sfx/')+name+'.mp3';
-  const an=ANIMALS.includes(name);
+  const an=ANIMALS.includes(name), fast=an||PERC.includes(name);
   axPlay(url,{gain:AMB_GAIN*Math.min(1.6,vol||1),hold:hold||6,rand:!!rand,at:at==null?null:at,
-    fadeIn:an?0.12:1.2,fadeOut:an?1.2:2.5});
+    fadeIn:fast?0.12:1.2,fadeOut:(fo!=null)?fo:(an?1.2:2.5)});
 }
 let SFXCUES=[], sfxIdx=0;
 function sfxForText(txt,key){
@@ -710,7 +719,7 @@ function sfxForText(txt,key){
 function resetSfx(t){ SFXCUES=(EPISODES[curIdx]&&EPISODES[curIdx].cues)||[]; sfxIdx=0; if(t){ while(sfxIdx<SFXCUES.length && SFXCUES[sfxIdx][0]<t-1) sfxIdx++; } }
 function tickSfx(t){
   while(sfxIdx<SFXCUES.length && t>=SFXCUES[sfxIdx][0]){
-    const c=SFXCUES[sfxIdx]; if(t-c[0]<3) sfx(c[1],c[2],c[3],c[4]==null,c[4]); sfxIdx++;
+    const c=SFXCUES[sfxIdx]; if(t-c[0]<3) sfx(c[1],c[2],c[3],c[4]==null,c[4],c[5]); sfxIdx++;
   }
   if(typeof musicTick==='function') musicTick(t);
   if(typeof bedTick==='function' && !audio.paused) bedTick(t);
@@ -921,7 +930,7 @@ function reveal(b){
   const a2=b.nextElementSibling; if(!a2)return;
   a2.style.display='block'; b.style.opacity='.35'; b.disabled=true; b.textContent='✔';
 }
-const EP_THUMB={'lech-lecha':'land/beersheva.jpg','toldot':'land/chevron.jpg','toldot-raav':'land/beersheva.jpg','toldot-brachot':'land/negev.jpg','vayetzei':'land/jerusalem_night.jpg'};
+const EP_THUMB={'lech-lecha':'land/beersheva.jpg','toldot':'land/galilee_view.jpg','toldot-raav':'land/beersheva.jpg','toldot-brachot':'land/negev.jpg','vayetzei':'land/jerusalem_night.jpg'};
 /* איור לכל פרק: בלי דמויות מהתנ"ך — רק נוף, חפצים וחיות */
 const EP_ART={'lech-lecha':'art/lech-lecha.svg','toldot':'art/toldot.svg','toldot-raav':'art/toldot-raav.svg','toldot-brachot':'art/toldot-brachot.svg','vayetzei':'art/vayetzei.svg'};
 function renderBar(){
@@ -931,7 +940,7 @@ function renderBar(){
   bar.querySelectorAll('.ep').forEach(el=>el.addEventListener('click',()=>renderEpisode(+el.dataset.i)));
 }
 /* EP_DATA_INJECTED */
-try{fetch('episodes_data.json?v=66').then(r=>r.json()).then(d=>{
+try{fetch('episodes_data.json?v=67').then(r=>r.json()).then(d=>{
   Object.keys(d).forEach(id=>{const e=EPISODES.find(x=>x.id===id);if(e){Object.assign(e,d[id]);} });
   if(typeof renderEpisodeFromHash==='function'){try{renderEpisodeFromHash();}catch(_){}}
 }).catch(e=>console.warn('ep data',e));}catch(e){}
@@ -959,7 +968,7 @@ if(document.readyState!=='loading'){buildLandWrap();}else{document.addEventListe
 /* LAND_OF_ISRAEL */
 const LAND={
  'lech-lecha':{img:'land/beersheva.jpg',place:'תל באר שבע · הנגב',note:'כאן עבר אברהם בדרכו לארץ'},
- 'toldot':{img:'land/chevron.jpg',place:'חברון · מערת המכפלה',note:'כאן קבורים אברהם ושרה'},
+ 'toldot':{img:'land/negev.jpg',place:'באר שבע · הנגב',note:'כאן ישבו יצחק ורבקה'},
  'toldot-raav':{img:'land/negev.jpg',place:'גרר · הנגב',note:'כאן אמר ה׳ ליצחק: אל תרד מצרימה'},
  'toldot-brachot':{img:'land/negev.jpg',place:'גרר · הנגב',note:'כאן ישב יצחק בימי הרעב'},
  'vayetzei':{img:'land/negev.jpg',place:'מדבר יהודה · הדרך לבית אל',note:'כאן חלם יעקב על הסולם'}
@@ -1003,12 +1012,11 @@ const LAND_EVENTS={
              {t:103,img:'beersheva',title:'הבאר בשדה',note:'שלושה עדרי צאן רובצים ליד הבאר'},
              {t:505,img:'negev',title:'הדרך לחרן',note:'יעקב רועה את הצאן של לבן'},
              {t:704,img:'kotel',title:'אבני ירושלים',note:'האבנים שעליהן עלו אבותינו'}],
- 'toldot':[{t:0,img:'chevron',title:'חברון · מערת המכפלה',note:'כאן קבורים אברהם ושרה'},
-           {t:20,img:'chevron',title:'חברון · מערת המכפלה',note:'מכאן מתחילה הפרשה'},
+ 'toldot':[{t:0,img:'beersheva',title:'תל באר שבע · הנגב',note:'כאן ישבו יצחק ורבקה, ומכאן מתחילה הפרשה'},
            {t:244,img:'beersheva',title:'תל באר שבע · הנגב',note:'ארץ הנגב שבה ישבו יצחק ורבקה'},
            {t:524,img:'negev',title:'השדה · הנגב',note:'שם צד עשו, ושם בנה יעקב אוהלים'},
            {t:704,img:'galilee_view',title:'הכנרת · הגליל',note:'הארץ שעליה נאמרה הברכה'}],
- 'toldot-raav':[{t:0,img:'chevron',title:'חברון · מערת המכפלה',note:'המקום של יצחק ורבקה'},
+ 'toldot-raav':[{t:0,img:'negev',title:'הנגב',note:'ארץ שצריכה גשם כדי לצמוח'},
                 {t:210,img:'beersheva',title:'גרר · ליד באר שבע',note:'ממש על הגבול עם מצרים'},
                 {t:231,img:'negev',title:'הנגב',note:'כאן הבטיח ה׳ ליצחק את הארץ'}],
  'toldot-brachot':[{t:0,img:'negev',title:'גרר · הנגב',note:'כאן ישב יצחק בימי הרעב'},
@@ -1067,7 +1075,7 @@ function renderEpisode(i){
   if(chip){ chip.style.display=ep.audio?'none':'block'; }
   if(ep.audio){
     audio.pause();
-    audio.src=ep.audio+'?v=61';
+    audio.src=ep.audio+'?v=72';
     audio.onerror=guidedMode;
     audio.oncanplaythrough=()=>{ btn.innerHTML='<span class="ic">▶</span> להאזין לסיפור'; btn.onclick=listenClick; };
     btn.innerHTML='<span class="ic">▶</span> להאזין לסיפור'; btn.onclick=listenClick;
@@ -1079,7 +1087,7 @@ function renderEpisode(i){
   __lastLandKey=''; setLandAt(0); buildLandGallery();
   try{const il=document.getElementById('identityLine');
     const IDENT={'lech-lecha':'<b>באר שבע וארץ הנגב</b> — מכאן התחילה הדרך של עם ישראל אל הארץ שהובטחה לו.',
-      'toldot':'<b>חברון</b> — העיר העתיקה ביותר של עם ישראל, ושם קבורים אבותינו.',
+      'toldot':'<b>באר שבע והנגב</b> — כאן ישבו יצחק ורבקה, ושם גדלו שני האחים.',
       'toldot-raav':'<b>גרר</b> — כאן נשאר יצחק בימי הרעב, ולא ירד למצרים.',
       'toldot-brachot':'<b>גרר והנגב</b> — כאן ישב יצחק, ובאוהל שלו ניתנה הברכה.',
       'vayetzei':'<b>בית אל</b> — כאן עמד יעקב על האבנים, וכאן חלם את החלום שכולנו ממשיכים לחלום.'};

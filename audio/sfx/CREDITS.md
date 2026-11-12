@@ -28,6 +28,21 @@
 | rain.mp3 | גשם |
 | thunder.mp3 | רעם |
 | heartbeat.mp3 | פעימות לב ("בום בום בום"), נוצר בקוד: synth_heartbeat.py |
+| bell.mp3 | פעמון של כבשה, נוצר בקוד: synth_more.py |
+| flute.mp3 | מנגינת חליל שקטה (יעקב איש תם), synth_more.py |
+| caravan.mp3 | שיירה: פרסות רכות ופעמוני גמלים, synth_more.py |
+| heavy_steps.mp3, steps_away.mp3 | צעדים כבדים של עשיו, מתקרבים ומתרחקים, synth_more.py |
+| drama.mp3 | מוזיקת מתח קצרה, synth_more.py |
+| heartbeat_fast.mp3 | דופק חזק ומהיר, synth_more.py |
+| tok.mp3 | ארבע מכות תוף לליווי "ויאכל וישת ויקום וילך", synth_more.py |
+| growl.mp3 | נהמה של חיה, synth_more.py |
+
+## הקלטות מוכנות מ-Wikimedia Commons (prep_downloaded_sfx.py)
+| קובץ | מקור | רישיון |
+|---|---|---|
+| baby1.mp3, baby2.mp3 | "Crying newborn baby.ogg", the_yura (baby2 = אותה הקלטה בגובה צליל אחר) | CC0 |
+| wolf.mp3 | "Wolf howls.ogg" | נחלת הכלל |
+| lion.mp3 | "Lion raring-sound1TamilNadu178.ogg" | נחלת הכלל |
 
 ## לולאות רקע סינתטיות — audio/loops
 נוצרו בקוד עבור הפרויקט (audio/loops/synth_ambient.py). אין צד שלישי, אין רישיון, אין מגבלה.
