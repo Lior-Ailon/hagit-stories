@@ -504,9 +504,9 @@ body.playing .notes{display:block}
         <div class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
         <div class="notes" aria-hidden="true"><span>♪</span><span>⭐</span><span>♫</span><span>✨</span><span>♪</span></div>
         <div class="pod-player" id="podPlayer">
-          <button class="pp-skip" data-s="15" aria-label="קדימה 15 שניות">15+ ⏩</button>
+          <button class="pp-skip" data-s="-15" aria-label="אחורה 15 שניות">⏩ 15-</button>
           <div class="pp-track" id="ppTrack"><div class="pp-fill" id="ppFill"></div></div>
-          <button class="pp-skip" data-s="-15" aria-label="אחורה 15 שניות">⏪ 15-</button>
+          <button class="pp-skip" data-s="15" aria-label="קדימה 15 שניות">15+ ⏪</button>
           <div class="pp-time" id="ppTime">0:00 / 0:00</div>
         </div>
         <div id="resumeChip" style="display:none;margin:8px auto 0;max-width:max-content;background:#f0fdf9;border:2px solid #b8ece0;color:#0b6b62;font-family:'Rubik',sans-serif;font-size:13px;font-weight:600;padding:6px 14px;border-radius:999px;cursor:pointer"></div>
@@ -940,7 +940,7 @@ function renderBar(){
   bar.querySelectorAll('.ep').forEach(el=>el.addEventListener('click',()=>renderEpisode(+el.dataset.i)));
 }
 /* EP_DATA_INJECTED */
-try{fetch('episodes_data.json?v=67').then(r=>r.json()).then(d=>{
+try{fetch('episodes_data.json?v=69').then(r=>r.json()).then(d=>{
   Object.keys(d).forEach(id=>{const e=EPISODES.find(x=>x.id===id);if(e){Object.assign(e,d[id]);} });
   if(typeof renderEpisodeFromHash==='function'){try{renderEpisodeFromHash();}catch(_){}}
 }).catch(e=>console.warn('ep data',e));}catch(e){}
