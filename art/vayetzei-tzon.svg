@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="כבשים עם כתמים ופסים ליד שוקת מים, ומקלות מקולפים בתוך המים: הצאן של יעקב">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffc98a"/><stop offset=".5" stop-color="#ffe3b8"/><stop offset="1" stop-color="#fff4dc"/></linearGradient>
+    <radialGradient id="sun" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fffbe0"/><stop offset=".5" stop-color="#ffe58a"/><stop offset="1" stop-color="#ffe58a" stop-opacity="0"/></radialGradient>
+    <!-- a sheep; fur color is set by the caller, spots/stripes drawn on top -->
+    <g id="body">
+      <ellipse cx="0" cy="0" rx="22" ry="15"/>
+      <circle cx="-14" cy="-8" r="9"/><circle cx="-4" cy="-12" r="9"/><circle cx="8" cy="-10" r="9"/><circle cx="16" cy="-2" r="8"/>
+    </g>
+    <g id="face">
+      <ellipse cx="26" cy="-4" rx="9" ry="8" fill="#4a3a30"/>
+      <ellipse cx="22" cy="-11" rx="4" ry="2.4" fill="#4a3a30" transform="rotate(-30 22 -11)"/>
+      <circle cx="28" cy="-6" r="1.4" fill="#fff"/>
+      <rect x="-12" y="11" width="4" height="12" rx="2" fill="#4a3a30"/><rect x="8" y="11" width="4" height="12" rx="2" fill="#4a3a30"/>
+    </g>
+    <g id="sheepPlain"><use href="#body" fill="#f6f3ea"/><use href="#face"/></g>
+    <g id="sheepSpotted"><use href="#body" fill="#f6f3ea"/>
+      <circle cx="-10" cy="-6" r="5" fill="#5a4636"/><circle cx="6" cy="-12" r="4" fill="#5a4636"/><circle cx="2" cy="4" r="4.5" fill="#8a6a4e"/><circle cx="14" cy="-1" r="3.4" fill="#5a4636"/><use href="#face"/></g>
+    <g id="sheepStriped"><use href="#body" fill="#f6f3ea"/>
+      <path d="M-16 -16 q-2 18 4 30 M-6 -20 q-3 22 4 34 M4 -20 q-3 22 4 34 M14 -14 q-2 16 3 26" stroke="#5a4636" stroke-width="3" fill="none" stroke-linecap="round"/><use href="#face"/></g>
+  </defs>
+  <rect width="400" height="400" fill="url(#sky)"/>
+  <circle cx="86" cy="86" r="70" fill="url(#sun)"/><circle cx="86" cy="86" r="28" fill="#ffd34d"/>
+  <g fill="#fff" opacity=".85"><ellipse cx="300" cy="64" rx="40" ry="11"/><ellipse cx="326" cy="54" rx="24" ry="10"/><ellipse cx="220" cy="122" rx="30" ry="9"/></g>
+  <path d="M0 214 Q90 178 190 210 T400 194 V400 H0Z" fill="#b6d46a"/>
+  <path d="M0 258 Q120 226 240 256 T400 244 V400 H0Z" fill="#92c050"/>
+  <path d="M0 312 Q140 282 280 308 T400 300 V400 H0Z" fill="#74aa3a"/>
+  <!-- water trough with peeled sticks (white stripes on dark wood) -->
+  <g transform="translate(200 300)">
+    <path d="M-92 0 L-84 -30 H84 L92 0Z" fill="#8a5a2a"/>
+    <rect x="-84" y="-34" width="168" height="8" rx="3" fill="#a56e36"/>
+    <rect x="-78" y="-28" width="156" height="14" fill="#2f78a8"/>
+    <rect x="-78" y="-28" width="156" height="4" fill="#7cc4ec" opacity=".7"/>
+    <g stroke-linecap="round">
+      <g transform="rotate(-18 -40 -22)"><rect x="-70" y="-26" width="64" height="7" rx="3.5" fill="#5a3a1f"/><path d="M-62 -24 l6 0 M-48 -24 l8 0 M-30 -24 l6 0 M-16 -24 l6 0" stroke="#fff" stroke-width="3"/></g>
+      <g transform="rotate(8 10 -22)"><rect x="-22" y="-27" width="70" height="7" rx="3.5" fill="#5a3a1f"/><path d="M-14 -25 l8 0 M0 -25 l6 0 M14 -25 l8 0 M30 -25 l6 0" stroke="#fff" stroke-width="3"/></g>
+      <g transform="rotate(-6 56 -22)"><rect x="24" y="-25" width="56" height="7" rx="3.5" fill="#5a3a1f"/><path d="M32 -23 l6 0 M46 -23 l8 0 M62 -23 l6 0" stroke="#fff" stroke-width="3"/></g>
+    </g>
+    <rect x="-80" y="0" width="10" height="16" rx="3" fill="#6e4a2c"/><rect x="70" y="0" width="10" height="16" rx="3" fill="#6e4a2c"/>
+  </g>
+  <!-- the new flock: spotted, striped, and a few plain ones -->
+  <use href="#sheepSpotted" transform="translate(76 292) scale(.95)"/>
+  <use href="#sheepStriped" transform="translate(326 300) scale(1) scale(-1 1)"/>
+  <use href="#sheepSpotted" transform="translate(120 352) scale(.85) scale(-1 1)"/>
+  <use href="#sheepStriped" transform="translate(304 362) scale(.9)"/>
+  <use href="#sheepPlain" transform="translate(50 238) scale(.55)"/>
+  <use href="#sheepSpotted" transform="translate(344 246) scale(.6) scale(-1 1)"/>
+  <use href="#sheepStriped" transform="translate(246 238) scale(.5)"/>
+  <!-- a lamb -->
+  <g transform="translate(200 360) scale(.55)"><use href="#sheepSpotted"/></g>
+</svg>

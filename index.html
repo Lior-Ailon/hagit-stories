@@ -379,6 +379,8 @@ body.playing .notes{display:block}
 .eps .ep[data-id="toldot"] .thumb::before{content:'🍲'}
 .eps .ep[data-id="vayetzei"] .thumb::before{content:'🪜'}
 .eps .ep[data-id="toldot-brachot"] .thumb::before{content:'🌾'}
+.eps .ep[data-id="vayetzei-lavan"] .thumb::before{content:'💍'}
+.eps .ep[data-id="vayetzei-tzon"] .thumb::before{content:'🐑'}
 .eps .ep[data-id="toldot-raav"] .thumb::before{content:'🏜️'}
 .eps .ep .thumb::after{width:42px !important;height:42px !important;font-size:16px !important}
 .eps-head{font-size:21px !important}
@@ -762,6 +764,16 @@ const EPISODES=[
  trivia:"<div class=\"trivia-q\"><div class=\"qt\">1. לאן יעקב בורח?</div><button class=\"ans-btn\" onclick=\"reveal(this)\">לחשו לתשובה 🎈</button><div class=\"trivia-a\">מבאר שבע לחרן — לבד, באמצע הלילה</div></div>\n<div class=\"trivia-q\"><div class=\"qt\">2. מה הוא שם מתחת לראשו כשהוא שוכב לישון?</div><button class=\"ans-btn\" onclick=\"reveal(this)\">לחשו לתשובה 🎈</button><div class=\"trivia-a\">אבן. לא כרית, אבן</div></div>\n<div class=\"trivia-q\"><div class=\"qt\">3. מה הוא רואה בחלום?</div><button class=\"ans-btn\" onclick=\"reveal(this)\">לחשו לתשובה 🎈</button><div class=\"trivia-a\">סולם מוצב ארצה וראשו מגיע השמימה, ומלאכים עולים ויורדים בו</div></div>\n<div class=\"trivia-q\"><div class=\"qt\">4. אילו שלוש הבטחות אלוקים נותן ליעקב?</div><button class=\"ans-btn\" onclick=\"reveal(this)\">לחשו לתשובה 🎈</button><div class=\"trivia-a\">אני איתך · אני שומר עליך בדרך · אני מחזיר אותך הביתה</div></div>\n<div class=\"trivia-q\"><div class=\"qt\">5. איך מרגיש יעקב בסוף?</div><button class=\"ans-btn\" onclick=\"reveal(this)\">לחשו לתשובה 🎈</button><div class=\"trivia-a\">\"וישא יעקב רגליו\" — הוא כבר לא בורח ולא דואג, הלב שלו קל</div></div>",
  memory:['🪜','🌙','⭐','🪨','🐑','🧭','🏠','👣'],
  parents:"<ol>\n<li><b>סולם ממקלות.</b> בונים סולם ממקלות ארטיק, מזרדים או מחומרים מן הטבע. ילד שבנה סולם לא ישכח אותו. בזמן הבנייה שואלים: \"מה החלום הכי מוזר שחלמת?\"</li>\n<li><b>המפה — מבאר שבע לבית אל.</b> פותחים מפה של ארץ ישראל ומסמנים את הדרך. בערך 100 קילומטר, וכל הפרשה קרתה שם.</li>\n<li><b>ארבע רוחות השמיים.</b> צפונה, נגבה, קדמה וימה. כל ילד אומר מה יש בצפון של הבית ומה בדרום.</li>\n<li><b>חלומות.</b> שיחה על חלומות בבית. מה חלמתם הלילה? למה חלומות מרגשים אותנו?</li>\n</ol>\n<p class=\"hint2\" style=\"margin-top:10px\">💡 הערה של חגית: את האבנים משאירים בחוץ. אבן מתחת לראש היא לא חוויה שכדאי לתת לילדים לחזור עליה בבית.</p>",
+ seg:null},
+{id:'vayetzei-lavan',num:'פרק 6',badge:'פרשת ויצא',title:'שבע שנים בשביל רחל',short:'ויצא ב׳',
+ audio:null,
+ intro:"שלום ילדים אהובים 👋<br>הפעם יעקב מגיע לבית של לבן — ועובד שבע שנים בשביל רחל…",
+ story:"<p>הסיפור מוקלט — לחצו על הכפתור כדי להאזין.</p>",
+ seg:null},
+{id:'vayetzei-tzon',num:'פרק 7',badge:'פרשת ויצא',title:'הצאן של יעקב',short:'ויצא ג׳',
+ audio:null,
+ intro:"שלום ילדים אהובים 👋<br>הפעם נולדים עוד בנים ליעקב — ויעקב עושה עסק מיוחד עם לבן על הצאן…",
+ story:"<p>הסיפור מוקלט — לחצו על הכפתור כדי להאזין.</p>",
  seg:null}
 ];
 
@@ -930,9 +942,9 @@ function reveal(b){
   const a2=b.nextElementSibling; if(!a2)return;
   a2.style.display='block'; b.style.opacity='.35'; b.disabled=true; b.textContent='✔';
 }
-const EP_THUMB={'lech-lecha':'land/elon_moreh.jpg','toldot':'land/galilee_view.jpg','toldot-raav':'land/beersheva.jpg','toldot-brachot':'land/negev.jpg','vayetzei':'land/jerusalem_night.jpg'};
+const EP_THUMB={'lech-lecha':'land/elon_moreh.jpg','toldot':'land/galilee_view.jpg','toldot-raav':'land/beersheva.jpg','toldot-brachot':'land/negev.jpg','vayetzei':'land/jerusalem_night.jpg','vayetzei-lavan':'land/galilee.jpg','vayetzei-tzon':'land/galilee_view.jpg'};
 /* איור לכל פרק: בלי דמויות מהתנ"ך — רק נוף, חפצים וחיות */
-const EP_ART={'lech-lecha':'art/lech-lecha.svg','toldot':'art/toldot.svg','toldot-raav':'art/toldot-raav.svg','toldot-brachot':'art/toldot-brachot.svg','vayetzei':'art/vayetzei.svg'};
+const EP_ART={'lech-lecha':'art/lech-lecha.svg','toldot':'art/toldot.svg','toldot-raav':'art/toldot-raav.svg','toldot-brachot':'art/toldot-brachot.svg','vayetzei':'art/vayetzei.svg','vayetzei-lavan':'art/vayetzei-lavan.svg','vayetzei-tzon':'art/vayetzei-tzon.svg'};
 function renderBar(){
   const bar=document.getElementById('epsBar');
   bar.innerHTML=EPISODES.map((e,i)=>
@@ -940,7 +952,7 @@ function renderBar(){
   bar.querySelectorAll('.ep').forEach(el=>el.addEventListener('click',()=>renderEpisode(+el.dataset.i)));
 }
 /* EP_DATA_INJECTED */
-try{fetch('episodes_data.json?v=69').then(r=>r.json()).then(d=>{
+try{fetch('episodes_data.json?v=71').then(r=>r.json()).then(d=>{
   Object.keys(d).forEach(id=>{const e=EPISODES.find(x=>x.id===id);if(e){Object.assign(e,d[id]);} });
   if(typeof renderEpisodeFromHash==='function'){try{renderEpisodeFromHash();}catch(_){}}
 }).catch(e=>console.warn('ep data',e));}catch(e){}
@@ -971,7 +983,9 @@ const LAND={
  'toldot':{img:'land/negev.jpg',place:'באר שבע · הנגב',note:'כאן ישבו יצחק ורבקה'},
  'toldot-raav':{img:'land/negev.jpg',place:'גרר · הנגב',note:'כאן אמר ה׳ ליצחק: אל תרד מצרימה'},
  'toldot-brachot':{img:'land/negev.jpg',place:'גרר · הנגב',note:'כאן ישב יצחק בימי הרעב'},
- 'vayetzei':{img:'land/negev.jpg',place:'מדבר יהודה · הדרך לבית אל',note:'כאן חלם יעקב על הסולם'}
+ 'vayetzei':{img:'land/negev.jpg',place:'מדבר יהודה · הדרך לבית אל',note:'כאן חלם יעקב על הסולם'},
+ 'vayetzei-lavan':{img:'land/galilee.jpg',place:'חרן · בית לבן',note:'כאן עבד יעקב שבע שנים בשביל רחל'},
+ 'vayetzei-tzon':{img:'land/galilee_view.jpg',place:'חרן · מרעה הצאן',note:'כאן רעה יעקב את הצאן של לבן'}
 };
 function setLand(eid){
   try{
@@ -1007,6 +1021,13 @@ function buildLandGallery(){
 }
 /* LAND_TIMELINE */
 const LAND_EVENTS={
+ 'vayetzei-lavan':[{t:0,img:'jerusalem_night',title:'הלילה של החלום · בית אל',note:'סולם מוצב ארצה וראשו מגיע השמיימה'},
+                   {t:52,img:'beersheva',title:'הבאר בשדה',note:'כאן פגש יעקב את רחל'},
+                   {t:105,img:'galilee',title:'מרעה הצאן · חרן',note:'יעקב רועה את הצאן של לבן'},
+                   {t:440,img:'chevron',title:'חברון · מערת המכפלה',note:'כאן קבורה לאה, אמא של ראובן, שמעון, לוי ויהודה'}],
+ 'vayetzei-tzon':[{t:0,img:'galilee',title:'חרן · בית לבן',note:'כאן נולדו רוב בני יעקב'},
+                  {t:318,img:'galilee_view',title:'מרעה הצאן · חרן',note:'יעקב רועה את הצאן של לבן'},
+                  {t:690,img:'negev',title:'הדרך הביתה',note:'יעקב מתכונן לחזור לארץ'}],
  'vayetzei':[{t:0,img:'jerusalem_night',title:'הלילה של החלום · בית אל',note:'סולם מוצב ארצה וראשו מגיע השמיימה'},
              {t:66,img:'mikdash',title:'"זה שער השמיים"',note:'המקום שבו ייבנה בית המקדש'},
              {t:103,img:'beersheva',title:'הבאר בשדה',note:'שלושה עדרי צאן רובצים ליד הבאר'},
@@ -1090,7 +1111,9 @@ function renderEpisode(i){
       'toldot':'<b>באר שבע והנגב</b> — כאן ישבו יצחק ורבקה, ושם גדלו שני האחים.',
       'toldot-raav':'<b>גרר</b> — כאן נשאר יצחק בימי הרעב, ולא ירד למצרים.',
       'toldot-brachot':'<b>גרר והנגב</b> — כאן ישב יצחק, ובאוהל שלו ניתנה הברכה.',
-      'vayetzei':'<b>בית אל</b> — כאן עמד יעקב על האבנים, וכאן חלם את החלום שכולנו ממשיכים לחלום.'};
+      'vayetzei':'<b>בית אל</b> — כאן עמד יעקב על האבנים, וכאן חלם את החלום שכולנו ממשיכים לחלום.',
+      'vayetzei-lavan':'<b>חרן</b> — כאן גר יעקב אצל לבן, ועבד שבע שנים כרועה צאן בשביל רחל.',
+      'vayetzei-tzon':'<b>חרן</b> — כאן נולדו בני יעקב, וכאן גדל העדר שלו.'};
     if(il && IDENT[ep.id]) il.innerHTML=IDENT[ep.id];}catch(e){}
   window.scrollTo({top:0,behavior:'smooth'});
 }

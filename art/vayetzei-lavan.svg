@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="באר בשדה ירוק, עם צאן שרועה סביבה, בבוקר: יעקב הרועה אצל לבן">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fd3f4"/><stop offset=".6" stop-color="#d7f0fa"/><stop offset="1" stop-color="#fff1c9"/></linearGradient>
+    <radialGradient id="sun" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff6c2"/><stop offset=".55" stop-color="#ffd966"/><stop offset="1" stop-color="#ffd966" stop-opacity="0"/></radialGradient>
+    <g id="sheep">
+      <ellipse cx="0" cy="0" rx="22" ry="15" fill="#f6f3ea"/>
+      <circle cx="-14" cy="-8" r="9" fill="#f6f3ea"/><circle cx="-4" cy="-12" r="9" fill="#f6f3ea"/><circle cx="8" cy="-10" r="9" fill="#f6f3ea"/><circle cx="16" cy="-2" r="8" fill="#f6f3ea"/>
+      <ellipse cx="26" cy="-4" rx="9" ry="8" fill="#4a3a30"/>
+      <ellipse cx="22" cy="-11" rx="4" ry="2.4" fill="#4a3a30" transform="rotate(-30 22 -11)"/>
+      <circle cx="28" cy="-6" r="1.4" fill="#fff"/>
+      <rect x="-12" y="11" width="4" height="12" rx="2" fill="#4a3a30"/><rect x="8" y="11" width="4" height="12" rx="2" fill="#4a3a30"/>
+    </g>
+  </defs>
+  <rect width="400" height="400" fill="url(#sky)"/>
+  <circle cx="318" cy="76" r="62" fill="url(#sun)"/>
+  <circle cx="318" cy="76" r="26" fill="#ffe27a"/>
+  <g fill="#fff" opacity=".9"><ellipse cx="80" cy="70" rx="38" ry="12"/><ellipse cx="108" cy="60" rx="26" ry="11"/><ellipse cx="230" cy="112" rx="32" ry="10"/><ellipse cx="252" cy="104" rx="20" ry="9"/></g>
+  <!-- rolling green hills -->
+  <path d="M0 220 Q80 180 180 214 T400 196 V400 H0Z" fill="#9bd36b"/>
+  <path d="M0 262 Q110 228 230 258 T400 246 V400 H0Z" fill="#7cc04f"/>
+  <path d="M0 316 Q130 286 270 312 T400 304 V400 H0Z" fill="#62ac3c"/>
+  <!-- a few flowers -->
+  <g fill="#fff"><circle cx="46" cy="338" r="3.2"/><circle cx="120" cy="362" r="3.2"/><circle cx="332" cy="350" r="3.2"/><circle cx="376" cy="378" r="3.2"/></g>
+  <g fill="#ffd34d"><circle cx="46" cy="338" r="1.4"/><circle cx="120" cy="362" r="1.4"/><circle cx="332" cy="350" r="1.4"/><circle cx="376" cy="378" r="1.4"/></g>
+  <!-- the well with its big stone -->
+  <g transform="translate(196 292)">
+    <ellipse cx="0" cy="0" rx="48" ry="14" fill="#6e6a76"/>
+    <path d="M-48 0 V-28 A48 14 0 0 1 48 -28 V0 A48 14 0 0 1 -48 0Z" fill="#a39fae"/>
+    <ellipse cx="0" cy="-28" rx="48" ry="14" fill="#c8c4d0"/><ellipse cx="0" cy="-28" rx="35" ry="9" fill="#2f6f9a"/>
+    <ellipse cx="-6" cy="-30" rx="14" ry="3" fill="#7cc4ec" opacity=".7"/>
+    <g stroke="#7d7988" stroke-width="2"><line x1="-20" y1="-16" x2="-20" y2="-3"/><line x1="4" y1="-14" x2="4" y2="0"/><line x1="26" y1="-18" x2="26" y2="-4"/></g>
+    <path d="M-36 -28 V-78 M36 -28 V-78" stroke="#6e4a2c" stroke-width="6" stroke-linecap="round"/><line x1="-40" y1="-80" x2="40" y2="-80" stroke="#6e4a2c" stroke-width="6" stroke-linecap="round"/>
+    <path d="M0 -80 V-50" stroke="#4a3a2a" stroke-width="2.4"/><path d="M-9 -50 H9 L7 -38 H-7Z" fill="#c98b52"/>
+    <!-- the big stone beside the well -->
+    <path d="M58 4 q4 -26 30 -28 q22 2 24 24 q-4 12 -26 12 q-24 0 -28 -8Z" fill="#9a9690"/><path d="M70 -14 q10 -8 20 -2" stroke="#b9b5ae" stroke-width="3" fill="none" stroke-linecap="round"/>
+  </g>
+  <!-- the flock -->
+  <use href="#sheep" transform="translate(76 312) scale(.9)"/>
+  <use href="#sheep" transform="translate(300 330) scale(1.05) scale(-1 1)"/>
+  <use href="#sheep" transform="translate(118 362) scale(.8)"/>
+  <use href="#sheep" transform="translate(336 282) scale(.62) scale(-1 1)"/>
+  <use href="#sheep" transform="translate(40 268) scale(.5)"/>
+  <!-- a shepherd's staff leaning on the well -->
+  <path d="M258 300 Q262 260 252 236 q-8 -10 -18 -4" stroke="#8a5a2a" stroke-width="5" fill="none" stroke-linecap="round"/>
+</svg>
