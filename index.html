@@ -789,7 +789,7 @@ audio.addEventListener('seeked',()=>{ try{ axStopAll(0.4); resetSfx(audio.curren
 audio.addEventListener('pause',()=>{ if(!audio.ended) axStopAll(0.5); });
 /* משוב חזותי בזמן האזנה: הילד רואה שהסיפור מתנגן (גלים, תווים וטבעת זוהרת) */
 ['play','playing'].forEach(ev=>audio.addEventListener(ev,()=>document.body.classList.add('playing')));
-['pause','ended'].forEach(ev=>audio.addEventListener(ev,()=>document.body.classList.remove('playing')));
+['pause','ended'].forEach(ev=>audio.addEventListener(ev,()=>{ if(!TH.active) document.body.classList.remove('playing'); }));
 audio.addEventListener('ended',()=>{ try{ clearPos(); const c=document.getElementById('resumeChip'); if(c)c.style.display='none'; nextEpisodeCard(); }catch(e){} });
 document.addEventListener('visibilitychange',()=>{ try{ if(document.hidden && !audio.paused) savePos(audio.currentTime); }catch(e){} });
 
@@ -899,15 +899,78 @@ function musicTick(t){
   else if(!inWin && AX.music) axMusicStop();
 }
 function startBgm(){ updateMusicWindows(); musicTick(0); }
+/* ===== פתיח וסיום מוזיקליים — אותו מנגנון לכל הפרקים, גם עתידיים =====
+   פתיח: המוזיקה מתנגנת לבד (29 שניות; עד שנייה 26 בעוצמה מלאה, ואז דעיכה עדינה של 3 שניות),
+   והקריינות נכנסת בשנייה 26, מעל הדעיכה. סיום: כשהפרק נגמר מתנגן הקטע משנייה 14 עד 26 של המקור, ואז דעיכה.
+   הקבצים נחתכו פעם אחת מהמקור (audio/music/hagit_intro.mp3, hagit_outro.mp3). לוותר בפרק מסוים: noTheme:true.
+   המוזיקה עוברת דרך Web Audio (ב-iPhone אי אפשר לשלוט בעוצמה של <audio>). */
+const THEME={intro:'audio/music/hagit_intro.mp3',outro:'audio/music/hagit_outro.mp3',handoff:26,gain:1};
+const TH={active:false,paused:false,done:false,cur:null,out:null,t0:0,pos:0,timer:null,buf:null};
+function themeOn(){ const ep=EPISODES[curIdx]||{}; return !!(ep.audio && !ep.noTheme); }
+function thPlayBuf(buf,off){
+  const ctx=axCtx(); const s=ctx.createBufferSource(); s.buffer=buf;
+  const g=ctx.createGain(); g.gain.value=THEME.gain; s.connect(g).connect(ctx.destination); s.start(0,off||0);
+  return {s:s,g:g,t0:ctx.currentTime-(off||0)};
+}
+function themeStop(fo){
+  clearTimeout(TH.timer); TH.timer=null; TH.active=false; TH.paused=false;
+  const d=(fo==null?0.4:fo);
+  [TH.cur,TH.out].forEach(h=>{ if(!h) return; try{ const t=AX.ctx.currentTime; h.g.gain.cancelScheduledValues(t);
+    h.g.gain.setValueAtTime(h.g.gain.value,t); h.g.gain.linearRampToValueAtTime(0.0001,t+d); h.s.stop(t+d+0.05); }catch(e){} });
+  TH.cur=null; TH.out=null;
+}
+function thBtn(playing){
+  btn.innerHTML=playing?'<span class="ic">⏸</span> עוצרים רגע…':'<span class="ic">▶</span> להמשיך להאזין';
+  document.body.classList.toggle('playing',!!playing);
+}
+function themeIntroRun(off){
+  const h=thPlayBuf(TH.buf,off); TH.cur=h; TH.t0=h.t0;
+  TH.timer=setTimeout(themeHandoff,Math.max(0,(THEME.handoff-off))*1000);
+}
+function themeIntroStart(){
+  const ctx=axCtx(); if(!ctx){ narrationStart(); return; }
+  TH.active=true; TH.paused=false; TH.pos=0; listening=true; thBtn(true);
+  /* iPhone מתיר play() בלי לחיצה רק לאלמנט שכבר הופעל בלחיצה: מפעילים את הקריינות בשקט ומיד עוצרים */
+  try{ audio.muted=true; const pr=audio.play();
+    const un=()=>{ if(TH.active){ try{audio.pause();audio.currentTime=0;}catch(e){} audio.muted=false; thBtn(true); } else audio.muted=false; };
+    if(pr&&pr.then) pr.then(un,()=>{audio.muted=false;}); else un();
+  }catch(e){ audio.muted=false; }
+  axLoad(THEME.intro).then(buf=>{ if(!TH.active) return; TH.buf=buf; themeIntroRun(0); })
+    .catch(()=>{ if(TH.active) themeHandoff(); });
+}
+function themeIntroPause(){
+  if(!TH.cur){ themeStop(0.1); listening=false; thBtn(false); return; }   /* עוד בטעינה: מבטלים */
+  clearTimeout(TH.timer); TH.pos=AX.ctx.currentTime-TH.t0;
+  try{ TH.cur.s.stop(); }catch(e){} TH.cur=null; TH.paused=true; thBtn(false);
+}
+function themeIntroResume(){ TH.paused=false; thBtn(true); themeIntroRun(TH.pos); }
+function themeHandoff(){
+  if(!TH.active) return;
+  TH.active=false; TH.paused=false; TH.done=true; audio.muted=false;   /* הזנב של המוזיקה ממשיך לדעוך מתחת לקריינות */
+  narrationStart();
+}
+function themeOutro(){
+  const fallback=()=>{ try{niggun.currentTime=0;niggun.volume=0.85;}catch(e){} const pr=niggun.play(); if(pr&&pr.catch)pr.catch(()=>{}); };
+  const ctx=axCtx(); if(!ctx){ fallback(); return; }
+  axLoad(THEME.outro).then(buf=>{ TH.out=thPlayBuf(buf,0); }).catch(fallback);
+}
+function narrationStart(){
+  axCtx(); const pr=audio.play(); listening=true; startBgm(); resetSfx(audio.currentTime); tickSfx(audio.currentTime);
+  try{ const sp=savedPos(); if(sp>20 && sp<audio.duration-25){ audio.currentTime=sp; } }catch(e){}
+  btn.innerHTML='<span class="ic">⏸</span> עוצרים רגע…';
+  if(pr&&pr.catch) pr.catch(()=>{ listening=false; document.body.classList.remove('playing'); btn.innerHTML='<span class="ic">▶</span> להאזין לסיפור'; });
+}
 function listenClick(){
+  if(TH.active){ if(TH.paused) themeIntroResume(); else themeIntroPause(); return; }
   if(!audio.paused){
     try{ savePos(audio.currentTime); }catch(e){} audio.pause(); axStopAll(0.5); listening=false;
     btn.innerHTML='<span class="ic">▶</span> להמשיך להאזין';
     return;
   }
-  axCtx(); audio.play(); listening=true; startBgm(); resetSfx(audio.currentTime); tickSfx(audio.currentTime);
-  try{ const sp=savedPos(); if(sp>20 && sp<audio.duration-25){ audio.currentTime=sp; } }catch(e){}
-  btn.innerHTML='<span class="ic">⏸</span> עוצרים רגע…';
+  themeStop(0.5);
+  let resuming=false; try{ const sp=savedPos(); resuming=sp>20 && audio.duration && sp<audio.duration-25; }catch(e){}
+  if(!TH.done && themeOn() && !resuming && (audio.currentTime<1 || audio.ended)){ themeIntroStart(); return; }
+  narrationStart();
 }
 function buildMemory(pairs){
   const grid=document.getElementById('memGrid'), score=document.getElementById('memScore');
@@ -1073,6 +1136,7 @@ function renderEpisode(i){
   curIdx=i; const ep=EPISODES[i];
   si=-1; timerKind=null; clearTimeout(subTimer); niggunDone=false; try{resetSfx();resetSubBox();window.__sfxDone={};window.__sfxLast='';}catch(e){}
   try{niggun.pause();}catch(e){}
+  try{ themeStop(0.3); TH.done=false; document.body.classList.remove('playing'); }catch(e){}
   document.getElementById('parashaBadge').textContent=ep.badge;
   document.getElementById('epTitle').textContent=ep.title;
   try{ const _im=document.getElementById('epImg'); if(_im){ _im.src=EP_ART[ep.id]||'art/default.svg'; _im.alt=''; } }catch(_){}
@@ -1098,7 +1162,7 @@ function renderEpisode(i){
     audio.pause();
     audio.src=ep.audio+'?v=72';
     audio.onerror=guidedMode;
-    audio.oncanplaythrough=()=>{ btn.innerHTML='<span class="ic">▶</span> להאזין לסיפור'; btn.onclick=listenClick; };
+    audio.oncanplaythrough=()=>{ if(TH.active) return; btn.innerHTML='<span class="ic">▶</span> להאזין לסיפור'; btn.onclick=listenClick; };
     btn.innerHTML='<span class="ic">▶</span> להאזין לסיפור'; btn.onclick=listenClick;
   } else {
     audio.pause(); audio.removeAttribute('src'); audio.load(); audio.onerror=null;
@@ -1128,8 +1192,9 @@ audio.addEventListener('ended',()=>{
   axStopAll(1.5);
   
   resetSubBox('הסיפור הסתיים. אפשר להאזין שוב 🤍');
-  try{niggun.currentTime=0;niggun.volume=0.85;}catch(e){}
-  const pr=niggun.play(); if(pr&&pr.catch)pr.catch(()=>{});
+  TH.done=false;
+  let _th=false; try{ if(themeOn()){ themeOutro(); _th=true; } }catch(e){}
+  if(!_th){ try{niggun.currentTime=0;niggun.volume=0.85;}catch(e){} const pr=niggun.play(); if(pr&&pr.catch)pr.catch(()=>{}); }
   btn.innerHTML='<span class="ic">▶</span> לשמוע שוב';
 });
 
