@@ -623,7 +623,7 @@ body.playing .notes{display:block}
    ב-iPhone אי אפשר לשנות volume של אלמנט <audio> — לכן אפקטים ומוזיקה עוברים דרך GainNode.
    רמות בסיס (הקריינות מנורמלת ל-16- LUFS, אפקטים ל-24-, מוזיקה ל-20-):
    AMB_GAIN = אפקטי רקע כ-21dB מתחת לקול. MUS_GAIN = מוזיקה בחלונות שקטים. */
-const AMB_GAIN=0.17, MUS_GAIN=0.336, BEDS=['chords','somber','desert','rain_soft','niggun_opening','stone','niggun_kids'];
+const AMB_GAIN=0.17, MUS_GAIN=0.336, BEDS=['chords','somber','desert','rain_soft','niggun_opening','stone','niggun_kids','wedding_happy'];
 const AX={ctx:null,buf:{},live:new Set(),music:null};
 function axCtx(){
   try{
@@ -688,7 +688,7 @@ function sprinkleNext(sc,key){
 function bedStop(fo){ AX.beds.forEach(h=>{ if(h) h.stop(fo||1); }); AX.beds=[]; clearTimeout(AX.sprk); AX.sprk=null; AX.bedKey=''; }
 function axMusicStop(fo=1.4){ if(AX.music){ AX.music.stop(fo); AX.music=null; } }
 /* קולות חיות: מתחילים מיד (בלי עלייה איטית) כדי שהנעירה תישמע ברגע שמזכירים את החמור */
-const ANIMALS=['donkey','donkey2','camel','sheep','flock','goat','barnyard','barn','rooster','owl','wolf','lion','growl','baby1','baby2','bell'];
+const ANIMALS=['donkey','donkey2','camel','sheep','flock','goat','barnyard','barn','rooster','owl','wolf','lion','growl','baby1','baby2','baby3','baby4','baby5','lamb','bell'];
 /* צלילים קצרים וקצביים: מתחילים מיד כדי להיות מסונכרנים עם המילה */
 const PERC=['tok','heartbeat','heartbeat_fast','heavy_steps','steps_away'];
 function sfx(name,vol,hold,rand,at,fo){
@@ -1022,7 +1022,7 @@ function renderBar(){
   bar.querySelectorAll('.ep').forEach(el=>el.addEventListener('click',()=>renderEpisode(+el.dataset.i)));
 }
 /* EP_DATA_INJECTED */
-try{fetch('episodes_data.json?v=73').then(r=>r.json()).then(d=>{
+try{fetch('episodes_data.json?v=74').then(r=>r.json()).then(d=>{
   Object.keys(d).forEach(id=>{const e=EPISODES.find(x=>x.id===id);if(e){Object.assign(e,d[id]);} });
   if(typeof renderEpisodeFromHash==='function'){try{renderEpisodeFromHash();}catch(_){}}
 }).catch(e=>console.warn('ep data',e));}catch(e){}
@@ -1167,7 +1167,7 @@ function renderEpisode(i){
   if(chip){ chip.style.display=ep.audio?'none':'block'; }
   if(ep.audio){
     audio.pause();
-    audio.src=ep.audio+'?v=73';
+    audio.src=ep.audio+'?v=74';
     audio.onerror=guidedMode;
     audio.oncanplaythrough=()=>{ if(TH.active) return; btn.innerHTML='<span class="ic">▶</span> להאזין לסיפור'; btn.onclick=listenClick; };
     btn.innerHTML='<span class="ic">▶</span> להאזין לסיפור'; btn.onclick=listenClick;
