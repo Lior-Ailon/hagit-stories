@@ -954,7 +954,14 @@ function themeOutro(){
   const ctx=axCtx(); if(!ctx){ fallback(); return; }
   axLoad(THEME.outro).then(buf=>{ TH.out=thPlayBuf(buf,0); }).catch(fallback);
 }
+/* trim:[התחלה,סוף] בנתוני הפרק: מדלגים על מוזיקת הפתיח/הסיום הישנה שצרובה בקובץ האודיו של הפרקים הוותיקים */
+function trimFinish(){
+  try{ audio.pause(); }catch(e){}
+  try{ audio.dispatchEvent(new Event('ended')); }catch(e){}
+  try{ audio.currentTime=0; }catch(e){}
+}
 function narrationStart(){
+  try{ const tr=(EPISODES[curIdx]||{}).trim; if(tr && audio.currentTime<tr[0]) audio.currentTime=tr[0]; }catch(e){}
   axCtx(); const pr=audio.play(); listening=true; startBgm(); resetSfx(audio.currentTime); tickSfx(audio.currentTime);
   try{ const sp=savedPos(); if(sp>20 && sp<audio.duration-25){ audio.currentTime=sp; } }catch(e){}
   btn.innerHTML='<span class="ic">⏸</span> עוצרים רגע…';
@@ -1015,7 +1022,7 @@ function renderBar(){
   bar.querySelectorAll('.ep').forEach(el=>el.addEventListener('click',()=>renderEpisode(+el.dataset.i)));
 }
 /* EP_DATA_INJECTED */
-try{fetch('episodes_data.json?v=71').then(r=>r.json()).then(d=>{
+try{fetch('episodes_data.json?v=73').then(r=>r.json()).then(d=>{
   Object.keys(d).forEach(id=>{const e=EPISODES.find(x=>x.id===id);if(e){Object.assign(e,d[id]);} });
   if(typeof renderEpisodeFromHash==='function'){try{renderEpisodeFromHash();}catch(_){}}
 }).catch(e=>console.warn('ep data',e));}catch(e){}
@@ -1160,7 +1167,7 @@ function renderEpisode(i){
   if(chip){ chip.style.display=ep.audio?'none':'block'; }
   if(ep.audio){
     audio.pause();
-    audio.src=ep.audio+'?v=72';
+    audio.src=ep.audio+'?v=73';
     audio.onerror=guidedMode;
     audio.oncanplaythrough=()=>{ if(TH.active) return; btn.innerHTML='<span class="ic">▶</span> להאזין לסיפור'; btn.onclick=listenClick; };
     btn.innerHTML='<span class="ic">▶</span> להאזין לסיפור'; btn.onclick=listenClick;
@@ -1183,6 +1190,11 @@ function renderEpisode(i){
 }
 audio.addEventListener('timeupdate',()=>{
   const cur=audio.currentTime;
+  const _tr=(EPISODES[curIdx]||{}).trim;
+  if(_tr && !audio.paused){
+    if(_tr[1] && cur>=_tr[1]){ trimFinish(); return; }
+    if(cur<_tr[0]-0.3){ audio.currentTime=_tr[0]; return; }
+  }
   let i=SEG.findIndex(sg=>cur>=sg[0]&&cur<sg[1]);
   if(i<0)i=(cur>=SEG[SEG.length-1][1])?SEG.length-1:0;
   if(i!==si&&!audio.paused){clearTimeout(subTimer);showSeg(i);}
